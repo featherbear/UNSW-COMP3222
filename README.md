@@ -1,2 +1,2 @@
 # YOUR COURSE TITLE
-YYYY Session XX Course Work
+2020 Session XX Course Work
