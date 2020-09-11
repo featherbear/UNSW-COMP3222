@@ -49,6 +49,22 @@ $> quartus_shell
 
 ---
 
+## Convenience
+
+### Desktop Shortcut
+
+A `.desktop` launcher shortcut can be created to run Quartus II IDE
+
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Quartus II
+Exec=>>CHANGE ME TO THE PATH OF quartus<<
+Comment=Quartus II
+Terminal=false
+```
+
 ## Container Security
 
 > HHAHAHAHAH DOCKER PRIVILEGE GO BRRRRRRR
