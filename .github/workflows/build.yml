@@ -1,6 +1,10 @@
 name: build docker image
 
-on: push
+on:
+  push:
+    paths:
+    - 'files/**'
+    - 'Dockerfile'
 
 jobs:
   build-publish:
