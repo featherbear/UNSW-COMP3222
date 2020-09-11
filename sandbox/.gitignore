@@ -1,5 +1,6 @@
 # git ignore for altera files
 
+*.qws
 /**/incremental_db/
 /**/db/
 /**/output_files/
