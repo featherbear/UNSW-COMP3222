@@ -1,7 +1,6 @@
 ---
 title: "Intro to Quartus"
 date: 2020-09-10T23:49:19+10:00
-description: "Quartus II Reference"
 
 hiddenFromHomePage: false
 postMetaInFooter: false
