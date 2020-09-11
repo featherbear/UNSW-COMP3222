@@ -22,11 +22,23 @@ sequenceDiagrams:
 
 ---
 
+# Hardware
+
+## Altera DE1
+
+* Don't need the 7.5V power supply - Can power off the USB port
+* FPGA: Cyclone II - EP2C20F484C7N
+
+---
+
+
 # Software
+
+## Quartus II
 
 * Version [13.0sp1](https://fpgasoftware.intel.com/13.0sp1/?edition=web) (13.0.1.232)
   * [Linux mirror](http://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_tar/Quartus-web-13.0.1.232-linux.tar) (Intel site doesn't work)
-  * Last version that supports the hardware :')
+  * Last version that supports the hardware (Cyclone II FPGA)
 
 * I made a [Docker image](https://github.com/featherbear/UNSW-COMP3222/tree/docker) to get Quartus II working on Linux
 
@@ -40,16 +52,7 @@ sequenceDiagrams:
 
 -->
 
----
-
-# Hardware
-
-## Altera DE1
-
-* Don't need the 7.5V power supply - Can power off the USB port
-* FPGA: Cyclone II - EP2C20F484C7N
-
-# USB Blaster
+## USB Blaster
 
 The `USB Blaster` is the driver to communicate with these boards.
 
@@ -66,13 +69,22 @@ You'll need to kill the `jtagd` process and run it as `root` (or write your udev
 
 ---
 
+# Programming the Board
+
 * `RUN` - Program operation mode
 * `PROG` - Programming mode (for active serial programming)
 
----
+## JTAG and Active Serial
 
 * **JTAG programming** is temporary, and only keeps the program whilst powered on
   * JTAG programming can be run on either `RUN` or `PROG` mode
   * Use the `.sof` files 
 * **Active Serial programming** will write the program into the onboard flash (persist)
   * Use the `.pof` files
+
+## Manuals
+
+* [Altera DE1 User Manual](https://github.com/featherbear/UNSW-COMP3222/raw/master/files/Manuals/DE1%20User%20Manual.pdf)
+* [Altera DE0 User Manual](https://github.com/featherbear/UNSW-COMP3222/raw/master/files/Manuals/DE0%20User%20Manual.pdf)
+* [Altera Cyclone II FPGA Reference Manual](https://github.com/featherbear/UNSW-COMP3222/raw/master/files/Manuals/Cyclone%20II%20FPGA%20Reference%20Manual.pdf)
+
