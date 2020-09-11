@@ -11,25 +11,25 @@ Configured to work with the Altera DE1 and DE0 boards that run the Cyclone II FP
 
 ### Running the Quartus II IDE
 
-Quartus II can be launched through the [`quartusIDE`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartusIDE) script
+Quartus II can be launched through the [`quartus`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartus) script
 
 ### Running the Quartus CLI Tools
 
-The [`quartus`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartus) script runs passed parameters in the container.  
+The [`quartus_shell`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartus) script runs passed parameters in the container.  
 
 ```bash
-quartus /app/quartus/bin/quartus_pgm -l
+quartus_shell /app/quartus/bin/quartus_pgm -l
 ```
 
 ---
 
-If no argument is supplied, [`quartus`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartus) will spawn a shell in the container, in the `/build` directory. This folder is mapped to the folder where you launched the script.
+If no argument is supplied, [`quartus_shell`](https://raw.githubusercontent.com/featherbear/UNSW-COMP3222/docker/quartus_shell) will spawn a shell in the container, in the `/build` directory. This folder is mapped to the folder where you launched the script.
 
 Example
 
 ```bash
 ~ /home/student/Desktop
-$> quartus
+$> quartus_shell
 
 [quartus] ~ /build
 [quartus] $> 

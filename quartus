@@ -13,5 +13,5 @@ docker run --rm -it \
   --cap-drop=ALL \
   --security-opt=no-new-privileges \
   docker.pkg.github.com/featherbear/unsw-comp3222/quartus-13.0sp1:latest \
-  /usr/local/bin/quartus_wrapper "$@"
+  /usr/local/bin/quartus_wrapper /app/quartus/bin/quartus --64bit
 xhost -local:root > /dev/null
