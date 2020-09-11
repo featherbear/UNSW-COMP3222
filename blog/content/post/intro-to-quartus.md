@@ -15,6 +15,10 @@ sequenceDiagrams:
 
 ---
 
+![](20200910_150223.jpg)
+
+![](20200912_021516.jpg)
+
 # Notes
 
 * EDA - Electronic Design Automation
@@ -49,6 +53,8 @@ sequenceDiagrams:
 * https://www.bitsnbites.eu/installing-intelaltera-quartus-in-ubuntu-17-10/
 * https://tomverbeure.github.io/2018/04/08/Altera-Quartus-Install.html
 * https://www.jamieiles.com/posts/quartus-docker/
+* https://github.com/electron/electron/issues/22775#issuecomment-616023334
+* http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/
 
 -->
 
