@@ -1,0 +1,5 @@
+# git ignore for altera files
+
+/**/incremental_db/
+/**/db/
+/**/output_files/
