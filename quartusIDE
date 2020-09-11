@@ -7,6 +7,7 @@ docker run --rm -it \
   -v $(pwd):/build \
   -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v ~/.altera.quartus:/root/.altera.quartus \
   --ipc=host \
   --privileged \
   --cap-drop=ALL \
