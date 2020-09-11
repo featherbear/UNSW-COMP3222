@@ -1,0 +1,18 @@
+#!/bin/bash -l
+
+CMD="$1"
+shift
+
+test -d /build && cd /build
+
+# Set up JTAG remote connection
+if [ -n "$JTAG_SERVER" -a -n "$JTAG_PASSWD" ] ; then
+    jtagconfig --addserver "$JTAG_SERVER" "$JTAG_PASSWD"
+fi
+
+# Spawn container - running either a given command, or defaulting to a shell
+if [ -n "$CMD" ]; then
+  $CMD "$@"
+else
+  bash
+fi

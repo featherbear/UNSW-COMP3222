@@ -1,0 +1,47 @@
+#!/usr/bin/expect
+
+set timeout -1
+
+spawn /root/quartus/components/QuartusSetupWeb-13.0.1.232.run --mode text --installdir /app
+
+puts "----------------------------------"
+
+log_user 0
+set count 0;
+while {$count <= 390 } {
+    expect "Press \\\[Enter\\\] to continue :" { send "\r" }
+    set count [expr $count+1];
+}
+log_user 1
+
+expect "Do you accept this license? \\\[y/n\\\]" { send "y\r" }
+expect "Installation directory \\\[/app]:" { send "\r" }
+
+# Required disk space:  6129 MB
+
+expect "Quartus II Web Edition (Free)  \\\[Y/n\\\] :" { send "y\r" }
+expect "Quartus II Web Edition (Free)  - Quartus II Software 64-bit support (1090MB) \\\[Y/n\\\] :" { send "y\r" }
+expect "Quartus II Web Edition (Free)  - Quartus II Help (627.9MB) \\\[Y/n\\\] :" { send "n\r" }
+expect "Quartus II Web Edition (Free)  - Devices \\\[Y/n\\\] :" { send "y\r" }
+expect "Quartus II Web Edition (Free)  - Devices - Arria II (482.8MB) \\\[Y/n\\\] " { send "n\r" }
+
+# The DE1 and DE0 boards run off the Cyclone II FPGA, so we don't need to install the other device libs
+expect "Quartus II Web Edition (Free)  - Devices - Cyclone II/III/IV (615.2MB) \\\[Y/n\\\] " { send "y\r" }
+
+expect "Quartus II Web Edition (Free)  - Devices - Cyclone V (751.8MB) \\\[Y/n\\\] " { send "n\r" }
+expect "Quartus II Web Edition (Free)  - Devices - MAX II/V, MAX 3000/7000 (9.1MB) \\\[Y/n\\\] " { send "n\r" }
+
+# Perhaps we should install ModelSim???
+expect "ModelSim-Altera Starter Edition (Free) (3547.1MB) \\\[Y/n\\\] " { send "n\r" }
+expect "ModelSim-Altera Edition (3547.1MB) \\\[y/N\\\] " { send "n\r" }
+
+expect "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
+expect "Press \\\[Enter\\\] to continue :" { send "\r" }
+
+# Does the install
+
+expect "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }
+expect "Launch Quartus II (64bit) \\\[Y/n\\\]:" { send "n\r" }
+expect "Provide your feedback at" { send "n\r" }
+
+expect eof

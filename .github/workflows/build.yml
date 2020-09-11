@@ -1,0 +1,15 @@
+name: build docker image
+
+on: push
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and Publish latest Docker image
+      uses: featherbear/gp-docker-action@1.1.7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        image-name: quartus-13.0sp1
