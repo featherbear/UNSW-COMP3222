@@ -49,6 +49,26 @@ $> quartus_shell
 
 ---
 
+## Mac OS X
+
+To run Quartus II on a Mac you will need to install `xquartz` and `socat` - both available on Homebrew.  
+
+```bash
+brew install xquartz socat 
+```
+
+Then configure `xquartz` to "Authenticate connections" and "Allow connections from network clients".  
+
+Next, in another window (perhaps add it as a backgrounded command in your launch script), run the following
+
+```
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"
+```
+
+Finally, modify the Docker script `DISPLAY` environment variable value from `$DISPLAY` to `host.docker.internal:0`
+
+Note: USB Blaster support not tested
+
 ## Convenience
 
 ### Desktop Shortcut
@@ -67,7 +87,7 @@ Terminal=false
 
 ## Container Security
 
-> HHAHAHAHAH DOCKER PRIVILEGE GO BRRRRRRR
+> HHAHAHAHAH DOCKER PRIVILEGES GO BRRRRRRR
 
 To exchange security for convenience (i.e. Docker access to USB Devices), the scripts set the `--privileged` flag when running the container.  
 
