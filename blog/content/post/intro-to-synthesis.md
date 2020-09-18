@@ -2,7 +2,6 @@
 title: "Introduction to Synthesis"
 date: 2020-09-16T14:12:43+10:00
 
-categories: ["Lectures"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 

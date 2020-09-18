@@ -2,7 +2,6 @@
 title: "Introduction to VHDL"
 date: 2020-09-16T15:44:38+10:00
 
-categories: ["Lectures"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 
@@ -67,3 +66,26 @@ END LogicFunc;
 ---
 
 ![](2020-09-16-15-55-48.png)
+
+---
+
+# STD_LOGIC
+
+The `std_logic` package defines legal values
+
+* 0
+* 1
+* Z - High Impedance
+* \- - Don't care
+* U - Uninitialised
+* X - Unknown
+* W - Weak
+* L - Weak tending to 0
+* H - Weak tending to H
+
+To use the library, we need to include the following two lines in the code
+
+```
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+```
