@@ -23,6 +23,14 @@ BEGIN
   s <= SW(9) & SW(9) & SW(9) & SW(9);
   LEDG <= (NOT(s) AND X) OR (s AND Y);
 
+  -- PROCESS (s) BEGIN
+  --   IF s = '0' THEN
+  --     LEDG <= X;
+  --   ELSE
+  --     LEDG <= Y;
+  --   END IF;
+  -- END PROCESS;
+
   -- LEDG(0) <= (NOT(s) AND X(0)) OR (s AND Y(0));
   -- LEDG(1) <= (NOT(s) AND X(1)) OR (s AND Y(1));
   -- LEDG(2) <= (NOT(s) AND X(2)) OR (s AND Y(2));
