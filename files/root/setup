@@ -31,8 +31,7 @@ expect "Quartus II Web Edition (Free)  - Devices - Cyclone II/III/IV (615.2MB) \
 expect "Quartus II Web Edition (Free)  - Devices - Cyclone V (751.8MB) \\\[Y/n\\\] " { send "n\r" }
 expect "Quartus II Web Edition (Free)  - Devices - MAX II/V, MAX 3000/7000 (9.1MB) \\\[Y/n\\\] " { send "n\r" }
 
-# Perhaps we should install ModelSim???
-expect "ModelSim-Altera Starter Edition (Free) (3547.1MB) \\\[Y/n\\\] " { send "n\r" }
+expect "ModelSim-Altera Starter Edition (Free) (3547.1MB) \\\[Y/n\\\] " { send "y\r" }
 expect "ModelSim-Altera Edition (3547.1MB) \\\[y/N\\\] " { send "n\r" }
 
 expect "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
