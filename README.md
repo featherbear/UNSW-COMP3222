@@ -35,6 +35,11 @@ $> quartus_shell
 [quartus] $> 
 ```
 
+### University Program VWF / Waveform Editor
+
+ModelSim doesn't play nice in the Waveform Simulator ([See issue](https://github.com/featherbear/UNSW-COMP3222/issues/1)).  
+To get simulations workings, inside the Simulation Waveform Editor go to [Simulation] > [Options] and select `Quartus II Simulator`.
+
 ### Mounts and Application Points
 
 * Quartus II is installed to the `/app` directory of the Docker container
