@@ -17,4 +17,9 @@ sequenceDiagrams:
 
 # 7 segment LED
 
-![](2020-09-21-18-03-12.png)
+![](2020-09-21-18-36-38.png)
+
+Accessible via `HEX0`, `HEX1`, `HEX2`, `HEX3`.  
+
+* LED segments are turned **ON** when set to `0`
+* LED segments are turned **OFF** when set to `1`
