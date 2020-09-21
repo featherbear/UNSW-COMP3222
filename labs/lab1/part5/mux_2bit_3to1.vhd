@@ -14,6 +14,8 @@ ARCHITECTURE behaviour OF mux_2bit_3to1 IS
   SIGNAL stage2_vec : STD_LOGIC_VECTOR(1 DOWNTO 0);
   -- SIGNAL temp_vec : STD_LOGIC_VECTOR(1 DOWNTO 0)
 BEGIN
+  -- Create bit vectors of length 2, such that vector(S(n)) -> <S(n), S(n)>
+  -- Saves us from having to do a boolean operations for each bit of the switch
   stage1_vec <= S(0) & S(0);
   stage2_vec <= S(1) & S(1);
 
