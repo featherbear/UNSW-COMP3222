@@ -93,3 +93,19 @@ $s_3 = c_1 $
 $s_4 = c_1 $  
 $s_5 = c_1 + \overline{c_0}$  
 $s_6 = c_1 $  
+
+# Part 5
+
+## Block Diagram
+
+A high-level block diagram is created as below.  
+
+Note: The implementation of the two-bit 3-to-1 muxer is two cascaded two-bit 2-to-1 muxers
+
+### Simple
+
+![](part5_diagram_bw.png)
+
+### Coloured
+
+![](part5_diagram_colour.png)
