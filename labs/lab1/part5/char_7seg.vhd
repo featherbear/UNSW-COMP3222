@@ -1,0 +1,11 @@
+ENTITY char_7seg IS
+  PORT (
+    C : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
+    Display : OUT STD_LOGIC_VECTOR(0 TO 6)
+  );
+END char_7seg;
+
+ARCHITECTURE behaviour OF char_7seg IS
+BEGIN
+  -- your code
+END behaviour;
