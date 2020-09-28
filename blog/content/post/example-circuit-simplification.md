@@ -37,6 +37,4 @@ Deriving the output function
 
 ## Conversion of $P_4$ from NOR to AND(NOT,NOT)
 
-TODO: Rewrite
-
-![](2020-09-23-14-51-53.png)
+![](usingP4conv.png)
