@@ -31,5 +31,10 @@ sequenceDiagrams:
 
 </details>
 
+<details><summary>When you try your best but you don't succeeeeeeeeeeedddd. When you don't get what you want, but also don't get what you need BECAUSE I COPIED IT DOWN WRONG AGAIN HELP ME T_T</summary>
+
 ![](2020-09-28-22-31-57.png)
 
+</details>
+
+![](2020-09-28-22-43-21.png)
