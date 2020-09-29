@@ -14,34 +14,49 @@ ARCHITECTURE structure OF L2P21 IS
 	END COMPONENT;
 	SIGNAL A : std_logic_vector(2 DOWNTO 0);
 	SIGNAL s : std_logic; -- intermediate signal for z
+	
+	-- Zero value
+	SIGNAL ZERO : STD_LOGIC := '0';
+	
 BEGIN	
 
-	--circuit A
-	A(0) <= -- your Boolean logic expressions
-	A(1) <= 
-	A(2) <=
+	--circuit A -- Handles the high shift
+	A(2) <= V(2) AND V(1);
+	A(1) <= NOT(V(1));
+	A(0) <= V(0);
 	
 	--comparator
-	s <= -- your Boolean logic expression
+	s <= V(3) AND (V(2) OR V(1)); -- V >= 10 when V == 0b1X1X or V == 0b11XX
 	z <= s;
 	
 	--muxes
-	m0: -- your mux_2to1 instantiations
-	m1: 
-	m2: 
-	m3: 
+	m3: mux_2to1 PORT MAP (
+	  d0 => V(3),
+	  d1 => ZERO,
+	  s => s,
+	  f => M(3)
+	);
+	
+	m2: mux_2to1 PORT MAP (
+	  d0 => V(2),
+	  d1 => A(2),
+	  s => s,
+	  f => M(2)
+	);
+	
+	m1: mux_2to1 PORT MAP (
+	  d0 => V(1),
+	  d1 => A(1),
+	  s => s,
+	  f => M(1)
+	);
+	
+	m0: mux_2to1 PORT MAP (
+	  d0 => V(0),
+	  d1 => A(0),
+	  s => s,
+	  f => M(0)
+	);
+
 	
 END structure;	
-
-LIBRARY ieee;
-USE ieee.std_logic_1164.all;
-
-ENTITY mux_2to1 IS
-	PORT	(d0, d1, s	:IN STD_LOGIC;
-			 f	:OUT STD_LOGIC);
-END mux_2to1;
-
-ARCHITECTURE logicfunc OF mux_2to1 IS
-BEGIN
-	f <= -- your 2-to-1 mux code
-END logicfunc;
