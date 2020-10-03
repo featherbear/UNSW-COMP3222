@@ -34,6 +34,10 @@ sequenceDiagrams:
 
 # Part 2
 
+![](2020-10-03-17-46-28.png)
+
+---
+
 |Truth Table|Annotations|
 |:---:|:---:|
 |![](2020-09-30-01-54-59.png)|![](2020-09-30-02-13-02.png)|
@@ -47,3 +51,15 @@ sequenceDiagrams:
 |$A_2$|$A_1$|$A_0$|
 |:---:|:---:|:---:|
 |![](2020-09-30-02-29-50.png)|![](2020-09-30-02-30-09.png)|![](2020-09-30-02-30-14.png)|
+
+## Logic Function for $z$
+
+$z = 1$ when $V \ge 10$  
+i.e. $V = <1X1X>$ or $V = <11XX>$  
+
+$z = V_3 \cdot (V_2 + V_1)$
+
+## Waveform Verification
+
+![](2020-10-03-18-16-13.png)
+
