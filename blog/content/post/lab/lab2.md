@@ -63,3 +63,23 @@ $z = V_3 \cdot (V_2 + V_1)$
 
 ![](2020-10-03-18-16-13.png)
 
+## Circuit B Design
+
+The design for circuit B is trivial.
+
+* When input `z` is `0`, circuit B should display a `0` on the display
+  * All values are `0` except for _segment 6_
+* When input `z` is `1`, circuit B should display a `1` on the display
+  * All values are `1` except for _segment 1_ and _segment 2_
+
+This can be translated to the following VHDL code, where `0` indicates an illuminated segment
+
+```vhdl
+HEX1(0) <= z;
+HEX1(1) <= '0'; -- Boolean: z AND NOT(z);
+HEX1(2) <= '0'; -- Boolean: z AND NOT(z);
+HEX1(3) <= z;
+HEX1(4) <= z;
+HEX1(5) <= z;
+HEX1(6) <= '1'; -- Boolean: z OR NOT(z);
+```
