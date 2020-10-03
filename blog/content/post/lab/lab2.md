@@ -83,3 +83,18 @@ HEX1(4) <= z;
 HEX1(5) <= z;
 HEX1(6) <= '1'; -- Boolean: z OR NOT(z);
 ```
+<!-- 
+
+# Part 3
+
+## Full Adder Truth Table
+
+![](2020-10-03-21-59-15.png)
+
+## Full Adder Karnaugh Map
+
+![](2020-10-03-21-59-20.png)
+
+![](2020-10-03-21-59-25.png)
+
+-->
