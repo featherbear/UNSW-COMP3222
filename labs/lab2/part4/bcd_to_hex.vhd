@@ -1,0 +1,18 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY bcd_to_hex IS
+	PORT	(B	:IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			 H	:OUT STD_LOGIC_VECTOR(0 TO 6));
+END bcd_to_hex;
+
+ARCHITECTURE logicfunc OF bcd_to_hex IS
+BEGIN
+	H(0) <= -- your Boolean logic expressions
+	H(1) <= 
+	H(2) <= 
+	H(3) <= 
+	H(4) <= 
+	H(5) <= 
+	H(6) <= 
+END logicfunc;
