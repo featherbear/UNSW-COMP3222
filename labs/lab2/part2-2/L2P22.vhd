@@ -53,14 +53,7 @@ BEGIN
   --circuit B
   -- HEX1 shows 0 when z is 0
   -- HEX1 shows 1 when z is 1
-  HEX1(0) <= z;
-  HEX1(1) <= '0';
-  HEX1(2) <= '0';
-  HEX1(3) <= z;
-  HEX1(4) <= z;
-  HEX1(5) <= z;
-  HEX1(6) <= '1'; -- Always off
-  
+ 
   m3: mux_2to1 PORT MAP (
     d0 => V(3),
     d1 => ZERO,

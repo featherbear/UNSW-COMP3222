@@ -5,6 +5,7 @@ ENTITY L2P4 IS
 	PORT(	
 			SW		: IN  STD_LOGIC_VECTOR(9 DOWNTO 0);
 			LEDG	: OUT STD_LOGIC_VECTOR(9 DOWNTO 0);
+			
 			HEX0	: OUT STD_LOGIC_VECTOR(0 TO 6);
 			HEX1	: OUT STD_LOGIC_VECTOR(0 TO 6);
 			HEX2	: OUT STD_LOGIC_VECTOR(0 TO 6);
@@ -13,70 +14,99 @@ ENTITY L2P4 IS
 END L2P4;
 
 ARCHITECTURE structure OF L2P4 IS
-	COMPONENT full_add IS
-		PORT (
-			a, b, ci	: IN std_logic;
-			co, s	: OUT std_logic
+	COMPONENT adder_4bit IS
+		PORT(	
+			a 		: IN  STD_LOGIC_VECTOR(3 DOWNTO 0);
+			b 		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+			s		: OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
+			cin	: IN STD_LOGIC
 		);
 	END COMPONENT;
+
 	COMPONENT bcd_to_hex IS
 		PORT (
 			B	: IN std_logic_vector(3 DOWNTO 0);
 			H	: OUT std_logic_vector(0 TO 6)
 		);
 	END COMPONENT;
-	COMPONENT mux_2to1 IS
+
+	COMPONENT comparator_5bit IS
 		PORT (
-			d0, d1, s	: IN std_logic;
-			f				: OUT std_logic
+		  in5	: IN  STD_LOGIC_VECTOR(4 DOWNTO 0);
+		  v	: OUT STD_LOGIC;
+	END COMPONENT;
+	
+	COMPONENT one_toggle IS
+		PORT (
+		  v: IN STD_LOGIC;
+		  H: OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 		);
 	END COMPONENT;
 	
-	SIGNAL a, b, s : std_logic_vector(3 DOWNTO 0);	-- adder inputs and outputs
-	SIGNAL CA : std_logic_vector(3 DOWNTO 0);			-- circuit A outputs
-	SIGNAL M : std_logic_vector(3 DOWNTO 0);			-- mux outputs
-	SIGNAL N : std_logic_vector(3 DOWNTO 0);			-- circuit B outputs
-	SIGNAL cin, cout, z : std_logic;
-	SIGNAL c	: std_logic_vector(1 TO 3);				-- carries
+	SIGNAL a, b : STD_LOGIC_VECTOR(3 DOWNTO 0); -- Input values
+	
+	SIGNAL s : STD_LOGIC_VECTOR(4 DOWNTO 0); -- adder sum
+	SIGNAL z : STD_LOGIC; -- intermediate 10s overflow bit
+	SIGNAL sum : STD_LOGIC_VECTOR(4 DOWNTO 0); -- sum
+	
+	SIGNAL digit0 : STD_LOGIC_VECTOR(3 DOWNTO 0); -- Signal from digit switch to 7-bit decoder
+	
 BEGIN
 	
 	a <= SW(7 DOWNTO 4);
-	b <= SW(3 DOWNTO 0);
-	
+	b <= SW(3 DOWNTO 0);	
 	cin <= SW(8);
 	
-	LEDG(4 DOWNTO 0) <= cout & s;
-	LEDG(7) <= -- your Boolean logic expression
-
-	--ripple-carry adder
-	fa0: -- your full_add instantiations
-	fa1: 
-	fa2: 
-	fa3: 
+	-- Show 5-bit sum of A + B
+	sum <= cout & digit0;
+	LEDG(4 DOWNTO 0) <= sum;
 	
-	--circuit A
-	CA(0) <= -- your Boolean logic expressions
-	CA(1) <= 
-	CA(2) <= 
-	CA(3) <= 
+	-- Show LEDG(7) if A or B is > 9
+	-- >9; >= 10; 0b1X1X || 0b11XX
+	LEDG(7) <= (A(3) AND (A(2) OR A(1))) OR (B(3) AND (B(2) OR B(1)));
 	
-	--comparator
-	z <= -- your Boolean logic expression
+	--adder
+	adder: adder_4bit PORT MAP (
+		a => a,
+		b => b,
+		s => s,
+		cin => cin,
+		cout => z
+	);
 	
-	--circuit B
-	N <= "0000" WHEN z = '0' ELSE "0001";
-
-	--muxes
-	m0: -- your mux_2to1 instantiations
-	m1: 
-	m2: 
-	m3: 
+	--switch
+	digit: digit_switch PORT MAP (
+		s => z,
+		input => sum,
+		output => digit0
+	);
+	
+	tens: comparator_5bit PORT MAP (
+		in5 => sum,
+		v => z
+	);
 	
 	--7-segment decoders
-	h0: -- your bcd_to_hex instantiations
-	h1: 
-	h2: 
-	h3: 
+	h3: bcd_to_hex PORT MAP (
+		B => A,
+		H => HEX3
+	);
+	
+	h2: bcd_to_hex PORT MAP (
+		B => B,
+		H => HEX2
+	);
+	
+	o1: one_toggle PORT MAP (
+		v => z,
+		H => HEX1
+	);
+	
+	h0: bcd_to_hex PORT MAP (
+		B => digit0,
+		H => HEX0
+	);
+	
 END structure;	
 
 

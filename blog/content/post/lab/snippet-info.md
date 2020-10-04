@@ -18,6 +18,6 @@ sequenceDiagrams:
 
 * L1P2 - 4-bit 2-mux
 * L1P3 - 2-bit 3-mux
-* L2P1 - 4-bit number to HEX display (with unhandled values) (bcd_to_hex)
+* L2P1 - 4-bit number to HEX display (with unhandled values) (**bcd_to_hex**)
 * L2P2 - 4-bit to 2x HEX
-* L2P3 - bit adder with carry (full_add)
+* L2P3 - bit adder with carry (**full_add**)
