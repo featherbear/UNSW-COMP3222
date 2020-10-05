@@ -40,7 +40,7 @@ ARCHITECTURE structure OF L2P4 IS
 	COMPONENT one_toggle IS
 		PORT (
 		  v: IN STD_LOGIC;
-		  H: OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+		  H: OUT STD_LOGIC_VECTOR(0 TO 6)
 		);
 	END COMPONENT;
 	
@@ -67,7 +67,7 @@ BEGIN
 	cin <= SW(8);
 	
 	-- Show 5-bit sum of A + B
-	--LEDG(4 DOWNTO 0) <= s;
+	LEDG(4 DOWNTO 0) <= s;
 	
 	-- Show LEDG(7) if A or B is > 9
 	-- >9; >= 10; 0b1X1X || 0b11XX
