@@ -5,8 +5,8 @@ USE ieee.std_logic_1164.all;
 
 ENTITY adder_4bit IS
 	PORT(	
-			a 		: IN  STD_LOGIC_VECTOR(3 DOWNTO 0);
-			b 		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+			a 		: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			b 		: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			
 			s		: OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 			

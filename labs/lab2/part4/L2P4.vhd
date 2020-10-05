@@ -17,7 +17,7 @@ ARCHITECTURE structure OF L2P4 IS
 	COMPONENT adder_4bit IS
 		PORT(	
 			a 		: IN  STD_LOGIC_VECTOR(3 DOWNTO 0);
-			b 		: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+			b 		: IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			s		: OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
 			cin	: IN STD_LOGIC
 		);
@@ -33,7 +33,8 @@ ARCHITECTURE structure OF L2P4 IS
 	COMPONENT comparator_5bit IS
 		PORT (
 		  in5	: IN  STD_LOGIC_VECTOR(4 DOWNTO 0);
-		  v	: OUT STD_LOGIC;
+		  v	: OUT STD_LOGIC
+		);
 	END COMPONENT;
 	
 	COMPONENT one_toggle IS
@@ -43,11 +44,19 @@ ARCHITECTURE structure OF L2P4 IS
 		);
 	END COMPONENT;
 	
+	COMPONENT digit_switch IS
+		PORT (
+			s:			IN STD_LOGIC; -- Switch
+			input:	IN	 STD_LOGIC_VECTOR(4 DOWNTO 0); -- 5-bit input
+			output:	OUT STD_LOGIC_VECTOR(3 DOWNTO 0) -- 4-bit output
+		);
+	END COMPONENT;
+	
 	SIGNAL a, b : STD_LOGIC_VECTOR(3 DOWNTO 0); -- Input values
+	SIGNAL cin : STD_LOGIC;
 	
 	SIGNAL s : STD_LOGIC_VECTOR(4 DOWNTO 0); -- adder sum
 	SIGNAL z : STD_LOGIC; -- intermediate 10s overflow bit
-	SIGNAL sum : STD_LOGIC_VECTOR(4 DOWNTO 0); -- sum
 	
 	SIGNAL digit0 : STD_LOGIC_VECTOR(3 DOWNTO 0); -- Signal from digit switch to 7-bit decoder
 	
@@ -58,8 +67,7 @@ BEGIN
 	cin <= SW(8);
 	
 	-- Show 5-bit sum of A + B
-	sum <= cout & digit0;
-	LEDG(4 DOWNTO 0) <= sum;
+	--LEDG(4 DOWNTO 0) <= s;
 	
 	-- Show LEDG(7) if A or B is > 9
 	-- >9; >= 10; 0b1X1X || 0b11XX
@@ -70,19 +78,19 @@ BEGIN
 		a => a,
 		b => b,
 		s => s,
-		cin => cin,
-		cout => z
+		cin => cin
 	);
 	
 	--switch
 	digit: digit_switch PORT MAP (
-		s => z,
-		input => sum,
+		input => s,
+
+	s => z,
 		output => digit0
 	);
 	
 	tens: comparator_5bit PORT MAP (
-		in5 => sum,
+		in5 => s,
 		v => z
 	);
 	

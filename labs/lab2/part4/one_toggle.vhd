@@ -7,7 +7,7 @@ USE ieee.std_logic_1164.all;
 ENTITY one_toggle IS
 	PORT (
 	  v: IN STD_LOGIC;
-	  H: OUT STD_LOGIC_VECTOR(6 TO 0)
+	  H: OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 	);
 END one_toggle;
 

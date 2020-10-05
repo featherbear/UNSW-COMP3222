@@ -6,9 +6,9 @@ USE ieee.std_logic_1164.all;
 
 ENTITY digit_switch IS
 	PORT (
-		s:			IN STD_LOGIC; -- Switch
-		input:	IN	 STD_LOGIC_VECTOR(4 TO 0); -- 4-bit input
-		output:	OUT STD_LOGIC_VECTOR(3 TO 0); -- 4-bit output
+		s:			IN		STD_LOGIC; -- Switch
+		input:	IN	 	STD_LOGIC_VECTOR(4 DOWNTO 0); -- 5-bit input
+		output:	OUT 	STD_LOGIC_VECTOR(3 DOWNTO 0) -- 4-bit output
 	);
 END digit_switch;
 
