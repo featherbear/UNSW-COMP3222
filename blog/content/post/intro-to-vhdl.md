@@ -2,6 +2,7 @@
 title: "Introduction to VHDL"
 date: 2020-09-16T15:44:38+10:00
 
+categories: ["VHDL"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 

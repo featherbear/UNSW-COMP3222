@@ -2,6 +2,7 @@
 title: "VHDL Packages"
 date: 2020-09-23T15:28:16+10:00
 
+categories: ["VHDL"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 
@@ -16,4 +17,3 @@ sequenceDiagrams:
 ---
 
 A VHDL file can have a `PACKAGE` declaration which allows a project to be reused across multiple projects
-

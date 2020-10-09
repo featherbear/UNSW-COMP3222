@@ -1,7 +1,8 @@
 ---
-title: "Intro to FGPA"
+title: "Intro to FPGA"
 date: 2020-09-18T14:20:09+10:00
 
+categories: ["FPGA"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 

@@ -2,6 +2,7 @@
 title: "Intro to Quartus"
 date: 2020-09-10T23:49:19+10:00
 
+categories: ["FPGA", "VHDL"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 
