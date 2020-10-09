@@ -17,3 +17,8 @@ sequenceDiagrams:
 ---
 
 A VHDL file can have a `PACKAGE` declaration which allows a project to be reused across multiple projects
+
+Entities can then
+
+A) Define COMPONENTS  
+B) Import a component - `ENTITY work._____` during instantiation
