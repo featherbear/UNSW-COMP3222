@@ -1,0 +1,11 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY d_latch_test
+
+END d_latch_test;
+
+ARCHITECTURE behaviour of d_latch_test
+BEGIN
+
+END behaviour;

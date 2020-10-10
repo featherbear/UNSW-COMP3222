@@ -1,0 +1,17 @@
+vendor_name = ModelSim
+source_file = 1, /build/files/components/d_latch.vhd
+source_file = 1, /build/labs/lab3/d_latch_test/d_latch_test.vhd
+source_file = 1, /build/labs/lab3/d_latch_test/db/d_latch_test.cbx.xml
+source_file = 1, /app/quartus/libraries/vhdl/ieee/prmtvs_b.vhd
+source_file = 1, /app/quartus/libraries/vhdl/ieee/prmtvs_p.vhd
+source_file = 1, /app/quartus/libraries/vhdl/ieee/timing_b.vhd
+source_file = 1, /app/quartus/libraries/vhdl/ieee/timing_p.vhd
+design_name = d_latch_test
+instance = comp, \latch|R_g\, latch|R_g, d_latch_test, 1
+instance = comp, \latch|R\, latch|R, d_latch_test, 1
+instance = comp, \latch|Qb\, latch|Qb, d_latch_test, 1
+instance = comp, \SW[0]~I\, SW[0], d_latch_test, 1
+instance = comp, \SW[1]~I\, SW[1], d_latch_test, 1
+instance = comp, \latch|S_g\, latch|S_g, d_latch_test, 1
+instance = comp, \latch|Qa\, latch|Qa, d_latch_test, 1
+instance = comp, \LEDG[0]~I\, LEDG[0], d_latch_test, 1
