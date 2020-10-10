@@ -190,3 +190,53 @@ END PROCESS;
 * D-latch ($Q_a$) - Follows the input of D while clock is HIGH
 * Positive-edge triggered ($Q_b$) - Set to the initial value of D when the clock is HIGH
 * Negative-edge triggered ($Q_c$) - Set to the initial value of D when the clock is LOW
+
+# T-type Flip-Flops
+
+"Toggle flip-flop"
+
+> When T is HIGH on an active clock edge, the value of Q is toggled.
+
+|Circuit|Table|Symbol|
+|:---:|:---:|:---:|
+|![](2020-10-10-18-19-15.png)|![](2020-10-10-18-19-33.png)|![](2020-10-10-18-19-40.png)|
+
+$Q(t+1) = T\ XOR\ Q(t)$
+
+![](2020-10-10-18-19-49.png)
+
+# JK-Type Flip-Flop
+
+
+|Circuit|Table|Symbol|
+|:---:|:---:|:---:|
+|![](2020-10-10-18-23-32.png)|![](2020-10-10-18-23-46.png)|![](2020-10-10-18-23-52.png)|
+
+---
+
+
+# Electrical Timing of Flip-Flops
+
+## Propagation delay $t_{cQ}$
+
+> Time for the output to reflect an input change
+
+The delay it takes to change from 1->0 may be different to the delay it takes to change from 0->1
+
+![](2020-10-10-18-10-02.png)
+
+**e.g. Gated D-Latch**
+
+|0->1|1->0|
+|:---:|:---:|
+|![](2020-10-10-18-12-34.png)|![](2020-10-10-18-12-43.png)|
+
+It takes $t_{cQ} = 2 \Delta$ for 0->1, but $t_{cQ} = 3 \Delta$ for 1->0.
+
+## Setup time $t_{su}$ / Hold time $t_{h}$
+
+> Time the input needs to be stable for prior/after to the triggering edge (for reliable a read)
+
+The circuit that generates the D signal must ensure the setup and hold times are satisfied. Together they define a window of time around the triggering clock edge for which D must be stable.
+
+![](2020-10-10-18-16-02.png)
