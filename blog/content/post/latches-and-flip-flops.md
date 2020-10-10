@@ -240,3 +240,33 @@ It takes $t_{cQ} = 2 \Delta$ for 0->1, but $t_{cQ} = 3 \Delta$ for 1->0.
 The circuit that generates the D signal must ensure the setup and hold times are satisfied. Together they define a window of time around the triggering clock edge for which D must be stable.
 
 ![](2020-10-10-18-16-02.png)
+
+---
+
+![](2020-10-10-19-27-56.png)
+
+To determine minimum period $T_{min}$ to wait for a guaranteed success (i.e. critical path - which is the longest delay).
+
+$$ T_{min} = \frac{1}{F_{max}} $$
+
+$$ T_{min}$ = max(t_{cQ}) + t_{NOT} + t_{su} $$
+$$ F_{max} = \frac{1}{T_{min}} $$
+
+Therefore, max clock speed is $ F_{max} $
+Any faster, $t_{su}$ will not be satisfied
+
+---
+
+To determine the shortest delay from any positive clock edge to flip-flop input.  
+
+$$ min(t_{cQ}) + t_{NOT} > t_h $$
+
+# Clock Skew
+
+Delay of the arrival clock edges, as a result of wire delays.
+
+FPGAs have special clock distribution networks designed so that all components receive the clock at the same time.
+
+**Positive Clock Skew** can be beneficial, as signals may arrive earlier than expected at the next gate.
+
+**Negative Clock Skew** is often harmful, as the signal arrives later than expected, adding further delay to the circuit.
