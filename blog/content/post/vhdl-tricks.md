@@ -20,6 +20,47 @@ sequenceDiagrams:
 
 [Read here](../vhdl-packages)
 
+# Entities
+
+## Generics
+
+Entities can have properties which can be set by the implementation during instantiation.
+
+```vhdl
+ENTITY regn IS
+  
+  -- Default: N = 16
+  GENERIC ( N : INTEGER := 16 );
+  
+  PORT (
+    D         : IN  STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+    RSTn, CLK : IN  STD_LOGIC;
+    Q         : OUT STD_LOGIC_VECTOR(N-1 DOWNTO 0)
+  );
+END regn;
+```
+
+If an assignment requires the length of a generic, we can use the `OTHERS` keyword as a wildcard - refer to [`$n$-bit registers`](../registers#n-bit-register)
+
+To set these values during instantiation, we use the `GENERIC MAP` declaration.
+
+```vhdl
+reg8: regn
+  GENERIC MAP ( N => 8 )
+  PORT MAP (
+    D,
+    RSTn,
+    CLK, 
+    Q
+  );
+```
+
+## Buffer Ports
+
+Apart from the `IN` and `OUT` modes of a port, a port can also have a `BUFFER` mode - which allows for reading _and_ writing from and to that port. 
+
+
+
 # Multiplexing with `SELECT`
 
 Note: Evaluation of all cases is done concurrently
@@ -114,6 +155,25 @@ NOTE: Processes that describe combination logic (circuits without memory) MUST a
 ## CASE
 
 ![](2020-10-10-03-31-24.png)
+
+## FOR ... LOOP
+
+```vhdl
+someLabel: FOR i IN 0 to N-2 LOOP
+  Q(i) <= Q(i+1);
+END LOOP;
+```
+
+## WAIT UNTIL
+
+Makes the process _always_ run, but only continues when a condition is true
+
+```vhdl
+PROCESS BEGIN
+  WAIT UNTIL CLK'event AND CLK = '1';
+  Q <= D;
+END PROCESS;
+```
 
 ---
 
