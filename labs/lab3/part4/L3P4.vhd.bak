@@ -7,6 +7,10 @@ ENTITY L3P4 IS
 END L3P4;
 
 ARCHITECTURE structural OF L3P4 IS
+	COMPONENT D_latch IS
+		PORT(	Clk, D :IN	std_logic;
+				Q : OUT std_logic);
+	END COMPONENT;
 	COMPONENT D_ff IS
 		PORT(	Clk, D :IN	std_logic;
 				Q : OUT std_logic);
@@ -16,15 +20,10 @@ ARCHITECTURE structural OF L3P4 IS
 				Q : OUT std_logic);
 	END COMPONENT;
 BEGIN
-
-	latch: work.d_latch PORT MAP (
-		Clk => Clock,
-		D => D,
-		Q => Qa
-	);
-
-	posDff: work.d_ff PORT MAP (Clock, D, Qb);
-	negDff: work.d_ff_neg PORT MAP (Clock, D, Qc);
+	
+	latch: D_latch PORT MAP (Clock, D, Qa);
+	posDff: D_ff PORT MAP (Clock, D, Qb);
+	negDff: neg_Dff PORT MAP (Clock, D, Qc);
 
 END structural;
 

@@ -21,3 +21,6 @@ sequenceDiagrams:
 * L2P1 - 4-bit number to HEX display (with unhandled values) (**bcd_to_hex**)
 * L2P2 - 4-bit to 2x HEX
 * L2P3 - bit adder with carry (**full_add**)
+* L3P1 - RS Latch
+* L3P2 - D Latch
+

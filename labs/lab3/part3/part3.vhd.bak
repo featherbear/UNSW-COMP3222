@@ -1,0 +1,21 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY part3 IS
+	PORT (
+	
+	);
+END part3;
+
+ARCHITECTURE struct of part3 IS
+  SIGNAL Qm : STD_LOGIC;
+BEGIN
+	master_latch: work.d_latch PORT MAP (
+	);
+
+	slave_latch: work.d_latch PORT MAP (
+	  Clk =>
+	);
+
+	
+END struct;
