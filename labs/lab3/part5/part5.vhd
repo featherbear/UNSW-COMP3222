@@ -34,8 +34,8 @@ BEGIN
 	muxb: ENTITY work.mux8 PORT MAP (D, FF_B, MX_B, MODE);
 	
 	-- Flip-flops: Takes in the mux outputs
-	flipperA: ENTITY work.reg8 PORT MAP (MX_A, FF_A, RESET, CLK);
-	flipperB: ENTITY work.reg8 PORT MAP (MX_B, FF_B, RESET, CLK);
+	flipperA: ENTITY work.reg8 PORT MAP (MX_A, FF_A, RESET, CLKn);
+	flipperB: ENTITY work.reg8 PORT MAP (MX_B, FF_B, RESET, CLKn);
 
 	-- Decode 4-bit values as 7-segment HEX active-low signals
 	HEX3BCD: ENTITY work.BCD_HEX PORT MAP (FF_A(7 DOWNTO 4), HEX3);
