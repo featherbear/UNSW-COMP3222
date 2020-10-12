@@ -10,5 +10,8 @@ END d_ff;
 
 ARCHITECTURE behaviour of d_ff IS
 BEGIN
-
+	PROCESS BEGIN
+		WAIT UNTIL Clk'event AND Clk = '1';
+		Q <= D;
+	END PROCESS;
 END behaviour;

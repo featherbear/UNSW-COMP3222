@@ -10,5 +10,8 @@ END d_ff_neg;
 
 ARCHITECTURE behaviour of d_ff_neg IS
 BEGIN
-
+	PROCESS BEGIN
+		WAIT UNTIL Clk'event AND Clk = '0';
+		Q <= D;
+	END PROCESS;
 END behaviour;
