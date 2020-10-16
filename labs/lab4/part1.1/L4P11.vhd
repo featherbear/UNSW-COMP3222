@@ -2,29 +2,32 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY L4P11 IS
-	PORT(	E, Clk, Clearn: IN std_logic;
-			Q : BUFFER std_logic_vector(7 DOWNTO 0));
+	PORT (
+		E, Clk, Clearn: IN std_logic;
+		Q : BUFFER std_logic_vector(7 DOWNTO 0)
+	);
 END L4P11;
 
 ARCHITECTURE structural OF L4P11 IS
-	COMPONENT T_ff IS
-		PORT(	T, Clk, Clearn :IN	std_logic;
-				Q : BUFFER std_logic);
-	END COMPONENT;
-	-- your signal definitions
+	SIGNAL T: STD_LOGIC_VECTOR(7 DOWNTO 0);
 BEGIN
-	-- your VHDL code
+	PROCESS (Clk, E, Q, T) BEGIN
+		G1: FOR i IN 0 TO 7 LOOP
+		  IF i = 0 THEN
+			 T(i) <= E;
+		  ELSE
+			 T(i) <= T(i-1) AND Q(i-1);
+		  END IF;
+		END LOOP;
+	END PROCESS;
+
+	G2: FOR i IN 0 TO 7 GENERATE
+		ctr: ENTITY work.t_ff PORT MAP (
+			  Clk => Clk,
+			  Clearn => Clearn,
+			  T => T(i),
+			  Q => Q(i)
+			);
+	END GENERATE;
+
 END structural;
-
-LIBRARY ieee;
-USE ieee.std_logic_1164.all;
-
-ENTITY T_ff IS
-	PORT(	T, Clk, Clearn :IN	std_logic;
-			Q : BUFFER std_logic);
-END T_ff;
-
-ARCHITECTURE behavioural OF T_ff IS
-BEGIN
-	-- your VHDL code
-END behavioural;

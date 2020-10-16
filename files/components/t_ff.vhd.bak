@@ -1,0 +1,12 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY T_ff IS
+	PORT(	T, Clk, Clearn :IN	std_logic;
+			Q : BUFFER std_logic);
+END T_ff;
+
+ARCHITECTURE behavioural OF T_ff IS
+BEGIN
+	-- your VHDL code
+END behavioural;
