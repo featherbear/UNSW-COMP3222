@@ -1,6 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
+-- Actually Lab 4, Question 1, Part5
 ENTITY L4P11 IS
 	PORT (
 		E, Clk, Clearn: IN std_logic;
