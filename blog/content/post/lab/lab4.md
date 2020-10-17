@@ -16,11 +16,9 @@ sequenceDiagrams:
 
 ---
 
-# Lab 4
+# Part One
 
-## Part One
-
-### Section 1
+## Section 1
 
 8-bit counter using 8 toggle flip-flop
 
@@ -30,13 +28,13 @@ Total Logic Elements: 11
 $F_{max} = 483.79 MHz$  
 $Restricted F_{max} = 380.08 MHz$  
 
-## Section Three
+## Section 3
 
 Integrated counter using `SW`, `KEY` and `HEX` components
 
 ![](2020-10-17-23-50-59.png)
 
-### Section Five
+## Section 5
 
 Functionally, this 4-bit T-flip-flop counter is identical to the one provided in Figure 1
 
@@ -44,7 +42,7 @@ Functionally, this 4-bit T-flip-flop counter is identical to the one provided in
 |:---:|:---:|
 |![](2020-10-17-23-53-21.png)|![](2020-10-17-23-55-34.png)|
 
-## Part Two
+# Part Two
 
 16-bit counter using procedural code `Q <= Q + 1`
 
@@ -71,14 +69,14 @@ $Restricted F_{max} = 380.08 MHz$
 
 Notably, there are 3 less logic elements in the procedural design than the manually designed model. Despite this, the maximum frequency is actually lower than the other model, likely as a result of the required internal transistors causing propagation delay . Realistically, both will operate at the same rate due to I/O limitations
 
-## Part Three
+# Part Three
 
 ![](2020-10-18-00-16-58.png)
 
 Total Logic Elements: 8  
 $F_{max} = 349.41 MHz$  
 
-## Part Four
+# Part Four
 
 Note: `HEX3`, `HEX2`, `HEX1` ignored for insignificance
 
