@@ -42,6 +42,7 @@ USE lpm.all;
 ENTITY timer IS
 	PORT
 	(
+		aclr		: IN STD_LOGIC ;
 		clock		: IN STD_LOGIC ;
 		cout		: OUT STD_LOGIC ;
 		q		: OUT STD_LOGIC_VECTOR (25 DOWNTO 0)
@@ -65,6 +66,7 @@ ARCHITECTURE SYN OF timer IS
 		lpm_width		: NATURAL
 	);
 	PORT (
+			aclr	: IN STD_LOGIC ;
 			clock	: IN STD_LOGIC ;
 			cout	: OUT STD_LOGIC ;
 			q	: OUT STD_LOGIC_VECTOR (25 DOWNTO 0)
@@ -84,6 +86,7 @@ BEGIN
 		lpm_width => 26
 	)
 	PORT MAP (
+		aclr => aclr,
 		clock => clock,
 		cout => sub_wire0,
 		q => sub_wire1
@@ -96,7 +99,7 @@ END SYN;
 -- ============================================================
 -- CNX file retrieval info
 -- ============================================================
--- Retrieval info: PRIVATE: ACLR NUMERIC "0"
+-- Retrieval info: PRIVATE: ACLR NUMERIC "1"
 -- Retrieval info: PRIVATE: ALOAD NUMERIC "0"
 -- Retrieval info: PRIVATE: ASET NUMERIC "0"
 -- Retrieval info: PRIVATE: ASET_ALL1 NUMERIC "1"
@@ -121,9 +124,11 @@ END SYN;
 -- Retrieval info: CONSTANT: LPM_PORT_UPDOWN STRING "PORT_UNUSED"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_COUNTER"
 -- Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "26"
+-- Retrieval info: USED_PORT: aclr 0 0 0 0 INPUT NODEFVAL "aclr"
 -- Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
 -- Retrieval info: USED_PORT: cout 0 0 0 0 OUTPUT NODEFVAL "cout"
 -- Retrieval info: USED_PORT: q 0 0 26 0 OUTPUT NODEFVAL "q[25..0]"
+-- Retrieval info: CONNECT: @aclr 0 0 0 0 aclr 0 0 0 0
 -- Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
 -- Retrieval info: CONNECT: cout 0 0 0 0 @cout 0 0 0 0
 -- Retrieval info: CONNECT: q 0 0 26 0 @q 0 0 26 0
