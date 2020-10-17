@@ -1,0 +1,11 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ieee;
+
+ENTITY part3 IS BEGIN
+
+END part3;
+
+ARCHITECTURE behaviour OF part3 IS
+BEGIN
+
+END behaviour;
