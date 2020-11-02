@@ -6,8 +6,8 @@ ENTITY L7P4 IS
 		KEY						:IN	std_logic_vector(3 DOWNTO 0);
 		SW							:IN	std_logic_vector(9 DOWNTO 0);
 		CLOCK_50					:IN	std_logic;
-		LEDR						:OUT 	std_logic_vector(9 DOWNTO 0);	-- UNCOMMENT when targetting DE1
-		LEDG						:OUT 	std_logic_vector(9 DOWNTO 0)	-- UNCOMMENT when targetting DE0
+		LEDR						:OUT 	std_logic_vector(9 DOWNTO 0);  -- UNCOMMENT when targetting DE1
+	-- LEDG						:OUT 	std_logic_vector(9 DOWNTO 0)	-- UNCOMMENT when targetting DE0
 	);
 END L7P4;
 
@@ -19,7 +19,7 @@ ARCHITECTURE mixed OF L7P4 IS
 	SIGNAL LR, CR, QL, QC : std_logic_vector(3 DOWNTO 0); -- length and code values and shift register contents
 	SIGNAL sel : std_logic_vector(2 DOWNTO 0); -- switch combination
 	
-	TYPE state_t IS (INIT, SHOW, PAUSE);
+	TYPE state_t IS (INIT, SHOW, PAUSE, DONE);
 	SIGNAL y_Q, Y_D : state_t;
 	
 	SIGNAL nextSymbol: STD_LOGIC;
@@ -74,34 +74,41 @@ BEGIN
 	CodeReg: work.shiftrne PORT MAP (CR, load, shift, '0', QC);
 	
 	Timer:   work.half_sec_timer PORT MAP (Clk, TStart, ClkHalfSec);
-	Delay:   work.morse_delay PORT MAP (Clk, ClkHalfSec, nextSymbol, delayDone); -- 0.5/1.5 delay
-	
-	LEDG(3) <= delayDone;
-	
+	Delay:   work.morse_delay PORT MAP (Clk, ClkHalfSec, TStart, nextSymbol, delayDone); -- 0.5/1.5s delay
+
 	-- Triggers to change state
 	FSM_transitions: PROCESS (y_Q, w, delayDone, hasMore) 	-- add to sensitivity list as needed
 		BEGIN
 			CASE y_Q IS
 				WHEN INIT =>
+					-- Change to state:SHOW when START pressed
 					IF w = '1' THEN
 						Y_D <= SHOW;
 					ELSE
 						Y_D <= INIT;
 					END IF;
+
 				WHEN SHOW =>
+					-- Change to state:PAUSE when the 0.5/1.5s delay elapses
 					IF delayDone = '1' THEN
 						Y_D <= PAUSE;
 					ELSE
 						Y_D <= SHOW;
 					END IF;
+
 				WHEN PAUSE =>
+					-- Change to state:DONE when there are no more items symbols left
+					-- Change to state:SHOW when when the 0.5/1.5s delay elapses
 					IF hasMore = '0' THEN 
-						Y_D <= INIT;
+						Y_D <= DONE;
 				   ELSIF delayDone = '1' THEN
 						Y_D <= SHOW;
 					ELSE
 						Y_D <= PAUSE;
 					END IF;
+
+					WHEN DONE => 
+					Y_D <= DONE;
 			END CASE;
 		END PROCESS;
 	
@@ -118,41 +125,27 @@ BEGIN
 	-- When a state is entered
 	FSM_outputs: PROCESS (y_Q)
 		BEGIN
-			TStart <= '0';
+			LEDG(0) <= '0';
 			
-			z <= '0';
-			load <= '0';
-			shift <= '0';
+			TStart <= '0';		-- Default: Run half second timer
+			z <= '0';     		-- Default: LED off
+			load <= '0';  		-- Default: Don't load from CL and CR
+			shift <= '0'; 		-- Default: Don't trigger right-shift
 			
 			CASE y_Q IS
 				WHEN INIT =>
-					
-					TStart <= '1';
-					load <= '1';
-					
-			--		LEDG(7) <= '1';
-		--			LEDG(6) <= '0';
-	--				LEDG(5) <= '0';
+					TStart <= '1'; -- Reset and keep timer on 0 ticks
+					load <= '1';   -- Load from CL and CR into QL and QR
 
 				WHEN SHOW =>
-				
-					--LEDG(7) <= '0';
-				--	LEDG(6) <= '1';
-			--		LEDG(5) <= '0';
-
-					nextSymbol <= currSymbol; -- Dot (0) = 0.5s; Dash (1) = 1.5s
-					z <= '1';            -- Enable LED
+					nextSymbol <= currSymbol; 	-- Dot (0) = 0.5s; Dash (1) = 1.5s
+					z <= '1';            		-- Enable LED
 					
 				WHEN PAUSE =>
 					nextSymbol <= '0';   -- Dot (0) = 0.5s; Dash (1) = 1.5s
-
---					LEDG(7) <= '0';
-	--				LEDG(6) <= '0';
-		--			LEDG(5) <= '1';
+					shift <= '1'; 			-- Do a shift for the next thing
 					
-					shift <= '1'; -- Do a shift for the next thing
+				WHEN DONE => NULL;
 			END CASE;
 		END PROCESS;
-
-
 END mixed;

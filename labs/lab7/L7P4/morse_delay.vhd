@@ -3,24 +3,26 @@ USE ieee.std_logic_1164.all;
 
 ENTITY morse_delay IS
 	PORT (
-		clk, enable	: IN STD_LOGIC;
-		symbol		: IN STD_LOGIC; -- 0 for DOT, 1 for DASH
-		done 			: OUT STD_LOGIC
+		clk, enable, rst	: IN STD_LOGIC;
+		symbol				: IN STD_LOGIC; -- 0 for DOT, 1 for DASH
+		done 					: OUT STD_LOGIC
 	);
 END morse_delay;
 
 ARCHITECTURE behaviour OF morse_delay IS
 	SIGNAL Q   : INTEGER RANGE 0 TO 3;
 BEGIN
-	PROCESS (clk) BEGIN
-		IF (clk'event AND clk = '1') THEN
+	PROCESS (clk, rst) BEGIN
+		IF rst = '1' THEN
+			Q <= 0;
+		ELSIF (clk'event AND clk = '1') THEN
 			done <= '0';
 
 			IF enable = '1' THEN	
 
-				-- Dash --> Count to 3
+				-- Dash --> Count to 2  (0, 1, 2  is 3 counts)
 				IF symbol = '1' THEN
-					IF Q = 3 THEN
+					IF Q = 2 THEN
 						done <= '1';
 						Q <= 0;
 					ELSE

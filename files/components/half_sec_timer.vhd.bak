@@ -2,10 +2,8 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY half_sec_timer IS
-	PORT (
-		Clk, Start : IN STD_LOGIC ;
-		Done : OUT STD_LOGIC
-	);
+	PORT ( Clk, Start : IN STD_LOGIC ;
+			 Done : OUT STD_LOGIC);
 END half_sec_timer;
 
 ARCHITECTURE Behavior OF half_sec_timer IS
