@@ -1,14 +1,14 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
-ENTITY D_ff IS
+ENTITY d_latch IS
     PORT (
         Clk, D, nReset : IN std_logic;
         Q              : OUT std_logic
     );
-END D_ff;
+END d_latch;
 
-ARCHITECTURE behavioural OF D_ff IS
+ARCHITECTURE behavioural OF d_latch IS
 BEGIN
     PROCESS (Clk)
     BEGIN
