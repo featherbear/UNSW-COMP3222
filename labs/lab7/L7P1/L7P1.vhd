@@ -41,7 +41,7 @@ BEGIN
 			END PROCESS;
 	
 	Gen1: FOR i IN 1 TO 8 GENERATE
-				Dffs: ENTITY work.d_ff PORT MAP (Clk, D(i), nReset, Q(i));
+				Dffs: ENTITY work.d_latch PORT MAP (Clk, D(i), nReset, Q(i));
 			END GENERATE;
 	
 	-- Modified for Step 6
