@@ -44,6 +44,9 @@ BEGIN
 				Dffs: ENTITY work.d_ff PORT MAP (Clk, D(i), nReset, Q(i));
 			END GENERATE;
 	
+	-- Modified for Step 6
+	D(0) <= nReset;
+	
 	-- your expressions for D(1) through D(8)
 	D(1) <= NOT(W) AND (Q(0) OR Q(5) OR Q(6) OR Q(7) OR Q(8));
 	D(2) <= NOT(W) AND Q(1);
