@@ -1,0 +1,30 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY morse_delay IS
+	PORT (
+		pulse, resetN: IN STD_LOGIC;
+		max			 : IN INTEGER;
+		done 			 : OUT STD_LOGIC
+	);
+END morse_delay;
+
+ARCHITECTURE behavior OF morse_delay IS
+	SIGNAL Q : INTEGER RANGE 0 TO stop;
+BEGIN
+	PROCESS (pulse)
+	BEGIN
+		IF (pulse'event AND pulse = '1') THEN
+			IF resetN = '0' THEN
+				done <= '0';
+				Q <= 0;
+			ELSIF (Q = max) THEN
+				done <= '1';
+				Q <= 0;
+			ELSE
+				done <= '0';
+				Q <= Q + 1;
+			END IF;
+		END IF;
+	END PROCESS;
+END behaviour;
