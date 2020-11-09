@@ -67,3 +67,8 @@ sequenceDiagrams:
 ![](2020-11-09-22-04-43.png)
 
 (Yay!)
+
+# Part 2
+
+> ROM file contains the simulation of part 1 from 160ns onwards
+
