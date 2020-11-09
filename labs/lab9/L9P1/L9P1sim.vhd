@@ -1,6 +1,5 @@
 LIBRARY ieee; 
 USE ieee.std_logic_1164.all;
-USE ieee.std_logic_signed.all;
 
 ENTITY L9P1sim IS
 	PORT (
@@ -11,9 +10,8 @@ ENTITY L9P1sim IS
 	);
 END L9P1sim;
 
-ARCHITECTURE Mixed OF part1 IS
+ARCHITECTURE Mixed OF L9P1sim IS
 	-- :: Signals :: --
-	--SIGNAL IR				: STD_LOGIC_VECTOR(8 DOWNTO 0);	-- Instruction register; IIIXXXYYY
 	SIGNAL instruction	: STD_LOGIC_VECTOR(2 DOWNTO 0);	-- 3-bit instruction
 	SIGNAL enableDecode	: STD_LOGIC; -- Enable 3-to-8 bit decoder
 	
@@ -23,16 +21,17 @@ ARCHITECTURE Mixed OF part1 IS
 	ALIAS enableIR	IS enableReg(10);
 		
 	-- :: Outputs :: --
-	SIGNAL AddSubOutput IS STD_LOGIC_VECTOR(8 DOWNTO 0);
+	SIGNAL AddSubOutput: STD_LOGIC_VECTOR(8 DOWNTO 0);
 	
-	SIGNAL R: ARRAY (0 TO 10) OF STD_LOGIC_VECTOR(8 DOWNTO 0); -- https://stackoverflow.com/a/9702456
+	TYPE regInputs IS ARRAY (0 TO 10) OF STD_LOGIC_VECTOR(8 DOWNTO 0); -- https://stackoverflow.com/a/9702456
+	SIGNAL R: regInputs;
+	
 	ALIAS A IS R(8);
 	ALIAS G IS R(9);
 	ALIAS IR IS R(10);
 	
 	-- :: Selects :: --
 	SIGNAL addSubMode 	: STD_LOGIC;
-	SIGNAL useG, useDIN	: STD_LOGIC;
 	SIGNAL regX, regY		: STD_LOGIC_VECTOR(7 DOWNTO 0); -- Register select for multiplexer
 	SIGNAL muxSel			: STD_LOGIC_VECTOR(0 TO 9);
 	
@@ -41,20 +40,20 @@ ARCHITECTURE Mixed OF part1 IS
 	SIGNAL Tstep_Q, Tstep_D: State_type;
 BEGIN
 	-- :: Components :: --
-	decX: work.dec3to8 PORT MAP (IR(5 DOWNTO 3), Hi, regX);
-	decY: work.dec3to8 PORT MAP (IR(2 DOWNTO 0), Hi, regY);
+	decX: work.dec3to8 PORT MAP (IR(5 DOWNTO 3), enableIR, regX);
+	decY: work.dec3to8 PORT MAP (IR(2 DOWNTO 0), enableIR, regY);
 	
-	REGISTERS: 	FOR i in 0 to 9 GENERATE
+	REGISTERS: 	FOR i in 0 to 8 GENERATE
 						-- Include Register A
 						BUS_IN_REGS: ENTITY work.regn PORT MAP (
 							BusWires, enableReg(i), Clock, R(i)
 						);
 					END GENERATE;
 	REGISTER_G: ENTITY work.regn PORT MAP (
-						AddSubOutput, enableG, Clock, R(10)
+						AddSubOutput, enableG, Clock, R(9)
 					);
 	REGISTER_IR: ENTITY work.regn PORT MAP (
-					   DIN, enableIR, Clock, R(11)
+					   DIN, enableIR, Clock, R(10)
 					 );
 												
 	ADD_SUB: ENTITY work.addSubUnit PORT MAP (
@@ -62,7 +61,7 @@ BEGIN
 				);
 
 	mux: ENTITY work.mux PORT MAP (
-		    R(0), R(1), R(2), R(3), R(4), R(5), R(6), R(7), R(8), G, DIN, muxSel, BusWires 
+		    R(0), R(1), R(2), R(3), R(4), R(5), R(6), R(7), G, DIN, muxSel, BusWires 
 		  );
 
 	enableDecode <= '1';
@@ -82,6 +81,7 @@ BEGIN
 						Tstep_D <= T1;
 					ELSE
 						Tstep_D <= T2;
+					END IF;
 				WHEN T2 =>
 					Tstep_D <= T3;
 				WHEN T3 =>
@@ -96,9 +96,9 @@ BEGIN
 			defaultsLoop: FOR i in 0 to 10 LOOP
 							     enableReg(i) <= '0';
 							  END LOOP;
-			Done <= '0'
+			Done <= '0';
 			muxSel <= (OTHERS => '0');
-			addSubMode = '0';
+			addSubMode <= '0';
 			
 			
 			CASE Tstep_Q IS
@@ -117,6 +117,7 @@ BEGIN
 						WHEN "010" |"011" =>
 							muxSel <= regX & "00";
 							enableA <= '1';
+						WHEN OTHERS =>
 					END CASE;
 				WHEN T2 => -- define signals in time step T2
 					muxSel <= regY & "00";
@@ -124,7 +125,7 @@ BEGIN
 	
 					IF instruction = "011" THEN
 						AddSubMode <= '1';
-					ELSE IF;
+					END IF;
 				WHEN T3 => -- define signals in time step T3
 					enableReg <= regX & "000";
 					muxSel <= "0000000010";

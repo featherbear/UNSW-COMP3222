@@ -1,5 +1,6 @@
 LIBRARY ieee; 
 USE ieee.std_logic_1164.all;
+USE ieee.std_logic_signed.all;
 
 ENTITY addSubUnit IS
 	GENERIC (n : INTEGER := 9);
@@ -13,6 +14,7 @@ ENTITY addSubUnit IS
 END addSubUnit;
 
 ARCHITECTURE behaviour OF addSubUnit IS
+BEGIN
 	PROCESS (Clock) BEGIN
 		IF Clock'event AND Clock = '1' THEN
 			-- O <= P1 + P2 WHEN AddOrSub = '0' ELSE P1 - P2;
