@@ -1,0 +1,11 @@
+LIBRARY ieee; 
+USE ieee.std_logic_1164.all;
+
+ENTITY mux IS
+	PORT (
+	);
+END mux;
+
+ARCHITECTURE behaviour OF mux IS
+
+END behaviour;
