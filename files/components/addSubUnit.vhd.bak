@@ -1,0 +1,11 @@
+LIBRARY ieee; 
+USE ieee.std_logic_1164.all;
+
+ENTITY addSubUnit IS
+
+END addSubUnit;
+
+ARCHITECTURE behaviour OF addSubUnit IS
+
+END behaviour;
+
