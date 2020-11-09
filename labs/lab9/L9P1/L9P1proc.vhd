@@ -1,19 +1,18 @@
 LIBRARY ieee; 
 USE ieee.std_logic_1164.all;
 
-ENTITY L9P1sim IS
+ENTITY L9P1proc IS
 	PORT (
 		DIN 					 : IN STD_LOGIC_VECTOR(8 DOWNTO 0);			-- Data
 		Resetn, Clock, Run	 : IN STD_LOGIC;									-- Control
 		Done 					 : BUFFER STD_LOGIC;								-- DONE state
 		BusWires 			 : BUFFER STD_LOGIC_VECTOR(8 DOWNTO 0)		-- Mux output
 	);
-END L9P1sim;
+END L9P1proc;
 
-ARCHITECTURE Mixed OF L9P1sim IS
+ARCHITECTURE Mixed OF L9P1proc IS
 	-- :: Signals :: --
 	SIGNAL instruction	: STD_LOGIC_VECTOR(2 DOWNTO 0);	-- 3-bit instruction
-	SIGNAL enableDecode	: STD_LOGIC; -- Enable 3-to-8 bit decoder
 	
 	SIGNAL enableReg		: STD_LOGIC_VECTOR(0 TO 10); -- Enable register writes
 	ALIAS enableA	IS enableReg(8);
@@ -64,7 +63,6 @@ BEGIN
 		    R(0), R(1), R(2), R(3), R(4), R(5), R(6), R(7), G, DIN, muxSel, BusWires 
 		  );
 
-	enableDecode <= '1';
 	instruction <= IR(8 DOWNTO 6);
 	
 	statetable: PROCESS (Tstep_Q, Run, Done)
@@ -78,14 +76,18 @@ BEGIN
 					END IF; 
 				WHEN T1 =>
 					IF (Done = '1') THEN ---------------
-						Tstep_D <= T1;
+						Tstep_D <= T0;
 					ELSE
 						Tstep_D <= T2;
 					END IF;
 				WHEN T2 =>
 					Tstep_D <= T3;
 				WHEN T3 =>
-					Tstep_D <= T3;
+					IF (Done = '1') THEN
+						Tstep_D <= T0;
+					ELSE
+						Tstep_D <= T3;
+					END IF;
 			END CASE;
 		END PROCESS;
 
@@ -97,7 +99,7 @@ BEGIN
 							     enableReg(i) <= '0';
 							  END LOOP;
 			Done <= '0';
-			muxSel <= (OTHERS => '0');
+			muxSel <= "0000000000"; -- (OTHERS => '0');
 			addSubMode <= '0';
 			
 			
@@ -135,7 +137,7 @@ BEGIN
 
 	fsmflipflops: PROCESS (Clock, Resetn)
 		BEGIN
-			IF (Resetn = '1') THEN
+			IF (Resetn = '0') THEN
 				Tstep_Q <= T0;
 			ELSIF (Clock'event AND Clock = '1') THEN
 				Tstep_Q <= Tstep_D;

@@ -16,15 +16,16 @@
 #
 # -------------------------------------------------------------------------- #
 #
-# Quartus II 64-Bit
+# Quartus II 32-bit
 # Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-# Date created = 12:38:05  October 23, 2020
+# Date created = 06:07:05  November 09, 2020
 #
 # -------------------------------------------------------------------------- #
 
 QUARTUS_VERSION = "13.0"
-DATE = "12:38:05  October 23, 2020"
+DATE = "06:07:05  November 09, 2020"
 
 # Revisions
 
 PROJECT_REVISION = "L9P1sim"
+PROJECT_REVISION = "L9P1proc"
