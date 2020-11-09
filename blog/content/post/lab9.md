@@ -33,7 +33,7 @@ sequenceDiagrams:
 # Simulation Information
 
 * 0-20ns - Reset held
-* 20-40 - -
+* 20-40ns - Wait 1 cycle
 * 40-60ns - Dry test `mov r1, r4`
 * 60-80ns - Dry test `mvi r2, -`
 * 80-100ns - Dry test `add r0, r7`
@@ -66,3 +66,4 @@ sequenceDiagrams:
 
 ![](2020-11-09-22-04-43.png)
 
+(Yay!)

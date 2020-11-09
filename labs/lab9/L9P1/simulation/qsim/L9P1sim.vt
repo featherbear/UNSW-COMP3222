@@ -18,7 +18,7 @@
 // the top level entity of the current Quartus project .The user can use this   
 // testbench to simulate his design using a third-party simulation tool .       
 // *****************************************************************************
-// Generated on "11/09/2020 10:23:08"
+// Generated on "11/09/2020 11:18:26"
                                                                         
 // Verilog Self-Checking Test Bench (with test vectors) for design :    L9P1proc
 // 
@@ -404,6 +404,10 @@ begin
 	Run = #20000 1'b0;
 	Run = #20000 1'b1;
 	Run = #20000 1'b0;
+	Run = #60000 1'b1;
+	Run = #20000 1'b0;
+	Run = #20000 1'b1;
+	Run = #20000 1'b0;
 end 
 // DIN[ 8 ]
 initial
@@ -417,7 +421,9 @@ begin
 	DIN[7] = #80000 1'b1;
 	DIN[7] = #40000 1'b0;
 	DIN[7] = #160000 1'b1;
-	DIN[7] = #20000 1'b0;
+	DIN[7] = #80000 1'b0;
+	DIN[7] = #40000 1'b1;
+	DIN[7] = #80000 1'b0;
 end 
 // DIN[ 6 ]
 initial
@@ -431,6 +437,8 @@ begin
 	DIN[6] = #20000 1'b0;
 	DIN[6] = #20000 1'b1;
 	DIN[6] = #20000 1'b0;
+	DIN[6] = #180000 1'b1;
+	DIN[6] = #80000 1'b0;
 end 
 // DIN[ 5 ]
 initial
@@ -443,7 +451,7 @@ begin
 	DIN[5] = #60000 1'b1;
 	DIN[5] = #20000 1'b0;
 	DIN[5] = #20000 1'b1;
-	DIN[5] = #20000 1'b0;
+	DIN[5] = #80000 1'b0;
 end 
 // DIN[ 4 ]
 initial
@@ -458,7 +466,9 @@ begin
 	DIN[4] = #20000 1'b1;
 	DIN[4] = #20000 1'b0;
 	DIN[4] = #20000 1'b1;
-	DIN[4] = #20000 1'b0;
+	DIN[4] = #100000 1'b0;
+	DIN[4] = #20000 1'b1;
+	DIN[4] = #80000 1'b0;
 end 
 // DIN[ 3 ]
 initial
@@ -469,11 +479,9 @@ begin
 	DIN[3] = #40000 1'b1;
 	DIN[3] = #20000 1'b0;
 	DIN[3] = #60000 1'b1;
-	DIN[3] = #59000 1'b0;
-	DIN[3] = #1000 1'b1;
-	DIN[3] = #20000 1'b0;
+	DIN[3] = #80000 1'b0;
 	DIN[3] = #20000 1'b1;
-	DIN[3] = #20000 1'b0;
+	DIN[3] = #80000 1'b0;
 end 
 // DIN[ 2 ]
 initial
@@ -484,8 +492,8 @@ begin
 	DIN[2] = #80000 1'b1;
 	DIN[2] = #20000 1'b0;
 	DIN[2] = #20000 1'b1;
-	DIN[2] = #19000 1'b0;
-	DIN[2] = #1000 1'b1;
+	DIN[2] = #40000 1'b0;
+	DIN[2] = #100000 1'b1;
 	DIN[2] = #20000 1'b0;
 end 
 // DIN[ 1 ]
@@ -495,11 +503,11 @@ begin
 	DIN[1] = #80000 1'b1;
 	DIN[1] = #20000 1'b0;
 	DIN[1] = #120000 1'b1;
-	DIN[1] = #19000 1'b0;
-	DIN[1] = #1000 1'b1;
-	DIN[1] = #20000 1'b0;
+	DIN[1] = #40000 1'b0;
 	DIN[1] = #20000 1'b1;
-	DIN[1] = #20000 1'b0;
+	DIN[1] = #100000 1'b0;
+	DIN[1] = #20000 1'b1;
+	DIN[1] = #80000 1'b0;
 end 
 // DIN[ 0 ]
 initial
@@ -510,9 +518,11 @@ begin
 	DIN[0] = #80000 1'b1;
 	DIN[0] = #20000 1'b0;
 	DIN[0] = #20000 1'b1;
-	DIN[0] = #19000 1'b0;
-	DIN[0] = #41000 1'b1;
 	DIN[0] = #20000 1'b0;
+	DIN[0] = #40000 1'b1;
+	DIN[0] = #80000 1'b0;
+	DIN[0] = #40000 1'b1;
+	DIN[0] = #80000 1'b0;
 end 
 
 L9P1proc_vlg_sample_tst tb_sample (
