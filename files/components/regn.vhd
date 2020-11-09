@@ -7,9 +7,9 @@ USE ieee.std_logic_1164.all;
 ENTITY regn IS
 	GENERIC (n : INTEGER := 9);
 	PORT (
-		R 				: IN STD_LOGIC_VECTOR(n-1 DOWNTO 0);
-		Rin, Clock  : IN STD_LOGIC;
-		Q 				: BUFFER STD_LOGIC_VECTOR(n-1 DOWNTO 0)
+		R 				: IN  STD_LOGIC_VECTOR(n-1 DOWNTO 0);
+		Rin, Clock  : IN  STD_LOGIC;
+		Q 				: OUT STD_LOGIC_VECTOR(n-1 DOWNTO 0)
 	);
 END regn;
 
