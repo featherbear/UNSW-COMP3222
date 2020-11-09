@@ -3,10 +3,11 @@ USE ieee.std_logic_1164.all;
 USE ieee.std_logic_signed.all;
 
 ENTITY L9P1sim IS
-	PORT (DIN : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
-			Resetn, Clock, Run : IN STD_LOGIC;
-			Done : BUFFER STD_LOGIC;
-			BusWires : BUFFER STD_LOGIC_VECTOR(8 DOWNTO 0));
+	PORT (
+		DIN 					 : IN STD_LOGIC_VECTOR(8 DOWNTO 0);
+		Resetn, Clock, Run	 : IN STD_LOGIC;
+		Done 					 : BUFFER STD_LOGIC;
+		BusWires 			 : BUFFER STD_LOGIC_VECTOR(8 DOWNTO 0));
 END L9P1sim;
 
 ARCHITECTURE Mixed OF part1 IS

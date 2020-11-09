@@ -4,9 +4,11 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY dec3to8 IS
-	PORT (W : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-			En : IN STD_LOGIC;
-			Y : OUT STD_LOGIC_VECTOR(0 TO 7));
+	PORT (
+		W 	: IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+		En	: IN STD_LOGIC;
+		Y 	: OUT STD_LOGIC_VECTOR(0 TO 7)
+	);
 END dec3to8;
 
 ARCHITECTURE Behavior OF dec3to8 IS
