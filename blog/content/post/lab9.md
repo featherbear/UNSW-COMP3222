@@ -28,7 +28,7 @@ sequenceDiagrams:
 
 > Not sure what the point of this multiplexer table is... since it's a one-hot encoded multiplexer, and there isn't any complicated logic
 
-![](2020-11-09-22-12-37.png)
+![](2020-11-09-22-14-36.png)
 
 # Simulation Information
 
