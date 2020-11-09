@@ -16,13 +16,15 @@ sequenceDiagrams:
 
 ---
 
-# Mealy State Diagram
+# Part 1
+
+## Mealy State Diagram
 
 <!-- Use the skeleton code to identify the control unit FSM and produce a Mealy state diagram prior to coding. -->
 
 ![](mealy_fsm.png)
 
-# Mux Truth table
+## Mux Truth table
 
 <!-- Produce a truth table for the Multiplexers unit prior to coding. -->
 
@@ -30,7 +32,7 @@ sequenceDiagrams:
 
 ![](2020-11-09-22-14-36.png)
 
-# Simulation Information
+## Simulation Information
 
 * 0-20ns - Reset held
 * 20-40ns - Wait 1 cycle
@@ -56,7 +58,7 @@ sequenceDiagrams:
 * 440-460ns - T2 -> T3. G should contain `15`
 * 460-480ns - Done. `r2` should contain `14`
 
-## Expected Final Register State
+### Expected Final Register State
 
 |$R_0$|$R_1$|$R_2$|$R_3$|$R_4$|$R_5$|$R_6$|$R_7$|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
