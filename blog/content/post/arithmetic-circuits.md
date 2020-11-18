@@ -2,6 +2,7 @@
 title: "Arithmetic Circuits"
 date: 2020-09-23T14:54:26+10:00
 
+description: "Carry lookahead"
 hiddenFromHomePage: false
 postMetaInFooter: false
 
@@ -104,6 +105,12 @@ Each stage can check if a carry has been generated, or if a carry has been propa
 Array of 10 lookup tables, 4 inputs -->
 
 * Overflow occurs when $ \overline{c_{n-1}} c_{n} + c_{n-1} \overline{c_n} = c_{n-1} \oplus c_n $
+
+![](2020-11-18-14-28-26.png)
+
+![](2020-11-18-14-35-36.png)
+
+Since each bit is known, we can get the G (A*B) and P (A XOR B) values by having those gates for each pair of bits
 
 # VHDL
 

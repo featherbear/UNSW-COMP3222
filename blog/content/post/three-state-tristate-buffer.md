@@ -19,3 +19,5 @@ sequenceDiagrams:
 
 When $c$ is `0`, output is high impedance (open circuit).  
 When $c$ is `1`, output is the value of the input $i$
+
+![](2020-11-18-14-38-00.png)
