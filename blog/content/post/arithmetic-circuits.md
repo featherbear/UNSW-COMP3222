@@ -115,3 +115,37 @@ Since each bit is known, we can get the G (A*B) and P (A XOR B) values by having
 # VHDL
 
 Arithmetic Operations can be performed in VHDL with the `ieee_std_logic_signed.all` package
+
+---
+
+# Multiplication Circuit
+
+Slides: `08-Design.pdf`
+
+![](2020-11-21-07-50-41.png)
+
+![](2020-11-21-07-52-12.png)
+
+![](2020-11-21-07-51-17.png) 
+
+# Division Circuit
+
+![](2020-11-21-07-55-00.png)
+
+![](2020-11-21-07-55-09.png)
+
+* `Left-shift R || A` - Shift the MSB of A into R
+
+## Enhanced Divisder Circuit
+
+![](2020-11-21-08-23-12.png)
+
+* Combine the Q and A register
+* Flip-flop used
+* Shift register holds both result and remainder
+
+![](2020-11-21-08-28-51.png)
+
+## Mean of K
+
+![](2020-11-21-08-29-44.png)
