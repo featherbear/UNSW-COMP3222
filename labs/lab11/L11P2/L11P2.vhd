@@ -3,74 +3,65 @@ USE ieee.std_logic_1164.all ;
 USE ieee.std_logic_unsigned.all ;
 
 ENTITY L11P2 IS
-	PORT(	Clock, Resetn	: IN STD_LOGIC ;
-			s					: IN STD_LOGIC ;
-			Data 				: IN STD_LOGIC_VECTOR(7 DOWNTO 0) ;
-			Addr 				: OUT STD_LOGIC_VECTOR(4 DOWNTO 0) ;
-			Found				: OUT STD_LOGIC ;
-			Done 				: OUT STD_LOGIC ) ;
-END L11P2 ;
+	PORT	(
+		Clock, ResetN	: IN	STD_LOGIC;
+		s					: IN	STD_LOGIC;
+		Data 				: IN	STD_LOGIC_VECTOR(7 DOWNTO 0);
+		Addr 				: OUT	STD_LOGIC_VECTOR(4 DOWNTO 0);
+		Found				: OUT	STD_LOGIC;
+		Done 				: OUT	STD_LOGIC
+	);
+END L11P2;
 
-ARCHITECTURE Behavior OF L11P2 IS
-	COMPONENT memory_block IS -- model used latches address and data internally, hence 2-cycle delay
-		PORT(	address	: IN STD_LOGIC_VECTOR (4 DOWNTO 0);
-				clock		: IN STD_LOGIC ;
-				data		: IN STD_LOGIC_VECTOR (7 DOWNTO 0);
-				wren		: IN STD_LOGIC ;
-				q			: OUT STD_LOGIC_VECTOR (7 DOWNTO 0));
-	END COMPONENT;
-	COMPONENT regne IS
-		GENERIC ( N : INTEGER := 8 ) ;
-		PORT(	D 			: IN 		STD_LOGIC_VECTOR(N-1 DOWNTO 0) ;
-				E		 	: IN 		STD_LOGIC ;
-				Resetn	: IN		STD_LOGIC;
-				Clock 	: IN 		STD_LOGIC ;
-				Q 			: OUT 	STD_LOGIC_VECTOR(N-1 DOWNTO 0) ) ;
-	END COMPONENT;
-	
+ARCHITECTURE Behaviour OF L11P2 IS
 	-- any other components
 	
-	TYPE State_type IS ( ); -- your states
-	SIGNAL y, y_next : State_type ;
+	--TODO:
+	--TYPE State_type IS ( ); -- your states
+	--SIGNAL y, y_next : State_type ;
 	
-	SIGNAL -- your signals
+	SIGNAL muxIncDecUse : STD_LOGIC;
+	
+	SIGNAL regLoInput, regHiInput	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL regLo, regMid, regHi	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	
+	SIGNAL regData : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+	SIGNAL regLoWrite, regMidWrite, regHiWrite, regDataWrite : STD_LOGIC;
+	
+	SIGNAL rightAdderOut, incrementorOut, decrementorOut	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL memOut 														: STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+	SIGNAL __aborterDummy__ : STD_LOGIC_VECTOR(3 DOWNTO 0);
+	
+	SIGNAL abortSignal 	: STD_LOGIC;
+	SIGNAL negComp 		: STD_LOGIC;
+	SIGNAL _val 			: STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
 BEGIN
-
-	-- your code
+	dev_regLO	:	work.regne GENERIC MAP (N => 4) PORT MAP (regLoInput, regLoWrite, '1', Clock, regLo);
+	dev_regMID	:	work.regne GENERIC MAP (N => 4) PORT MAP (regMidInput, regMidWrite, '1', Clock, regMid);
+	dev_regHI	:	work.regne GENERIC MAP (N => 4) PORT MAP (regHiInput, regHiWrite, '1', Clock, regHi);
+	dev_regDATA	:	work.regne GENERIC MAP (N => 8) PORT MAP (Data, regDataWrite, '1', Clock, regData);
 	
-	mem_blk: memory_block
-		PORT MAP (	address => -- your_search_addr,
-						clock => Clock, 
-						data => "00000000", -- not writing
-						wren => '0', -- not writing
-						q => --your_returned_data );
-
+	dev_muxLO	:	work.twoPortNMux GENERIC MAP (N => 4) PORT MAP (0, incrementorOut, muxIncDecUse, regLoInput);
+	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 4) PORT MAP (31, decrementorOut, muxIncDecUse, regHiInput);
 	
+	dev_inc		:	work.incDecUnit GENERIC MAP (N => 4) PORT MAP ('0', regMid, incrementorOut);
+	dev_dec		:	work.intDecUnit GENERIC MAP (N => 4) PORT MAP ('1', regMid, decrementorOut);
+	
+	dev_rsa		:	work.rightShiftAdder GENERIC MAP (N => 4) PORT MAP (regLo, regHi, rightAdderOut);	
+	dev_aborter	:	work.addSubUnit GENERIC MAP (N => 4) PORT MAP (regHi, regLo, '1', __aborterDummy__, abortSignal);
+	
+	dev_comp		:	work.addSubUnit GENERIC MAP (N => 8) PORT MAP (regData, memOut, '1', _val, negComp);
+	
+	--	model used latches address and data internally, hence 2-cycle delay
+	mem_blk: memory_block PORT MAP (
+		address	=> regMid,
+		clock 	=> Clock, 
+		data 		=> "00000000", -- not writing
+		wren 		=> '0', 			-- not writing
+		q 			=> memOut
+	);
 
-END Behavior ;
-
-LIBRARY ieee ;
-USE ieee.std_logic_1164.all ;
-
--- n-bit register with synchronous reset and enable
-ENTITY regne IS
-	GENERIC ( N : INTEGER := 8 ) ;
-	PORT(	D 			: IN 		STD_LOGIC_VECTOR(N-1 DOWNTO 0) ;
-			E		 	: IN 		STD_LOGIC ;
-			Resetn	: IN		STD_LOGIC;
-			Clock 	: IN 		STD_LOGIC ;
-			Q 			: OUT 	STD_LOGIC_VECTOR(N-1 DOWNTO 0) ) ;
-END regne ;
-
-ARCHITECTURE Behavior OF regne IS
-BEGIN
-	PROCESS
-	BEGIN
-		WAIT UNTIL (Clock'EVENT AND Clock = '1') ;
-		IF (Resetn = '0') THEN
-			Q <= (OTHERS => '0');
-		ELSIF (E = '1') THEN
-			Q <= D;
-		END IF ;
-	END PROCESS ;
-END Behavior ;
+END Behaviour;

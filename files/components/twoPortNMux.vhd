@@ -1,0 +1,19 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all;
+
+ENTITY twoPortNMux IS
+	GENERIC ( N : INTEGER );
+	PORT (
+		A: IN		STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+		B: IN		STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+		S: IN		STD_LOGIC;
+		O: OUT	STD_LOGIC_VECTOR(N-1 DOWNTO 0)
+	);
+END twoPortNMux;
+
+ARCHITECTURE behaviour OF twoPortNMux IS
+BEGIN
+	PROCESS (A, B, S) IS BEGIN
+		O <= A WHEN S = '0' ELSE B;
+	END PROCESS;
+END behaviour
