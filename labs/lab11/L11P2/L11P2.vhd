@@ -15,11 +15,8 @@ ENTITY L11P2 IS
 END L11P2;
 
 ARCHITECTURE Behaviour OF L11P2 IS
-	-- any other components
-	
-	--TODO:
-	--TYPE State_type IS ( ); -- your states
-	--SIGNAL y, y_next : State_type ;
+	TYPE State_type IS (S1, S2, S3, S4);
+	SIGNAL y, y_next : State_type;
 	
 	SIGNAL muxIncDecUse : STD_LOGIC;
 	
@@ -65,4 +62,67 @@ BEGIN
 		q 			=> memOut
 	);
 
+	---------------------------------------------------------------------------------------------------
+	
+	FSM_TRANSITION: PROCESS (abortSignal, s, compOut) BEGIN
+		CASE y IS
+			WHEN S1 =>
+			WHEN S2 =>
+				IF abortSignal = '1' THEN
+					y_next <= S4;
+				END IF;
+			WHEN S3 =>
+				IF unsigned(compOut) = 0 THEN
+					y_next <= S4;
+				ELSE
+					y_next <= S2;
+				END IF;
+				
+			WHEN S4 =>
+				IF s = '0' THEN
+					y_next <= S1;
+				END IF;
+		END CASE;
+	END PROCESS;
+	
+	FSM_STATE: PROCESS (ResetN, Clock) BEGIN
+		IF ResetN = '0' THEN
+			y <= S1;
+		ELSIF Clock'event AND Clock = '1' THEN
+			y <= y_next;
+		END IF;
+	END PROCESS;
+	
+	FSM_OUTPUT: PROCESS (y, compOut) BEGIN
+		regLoWrite <= '0';
+		regMidWrite <= '0';
+		regHiWrite <= '0';
+		regDataWrite <= '0';
+		muxIncDecUse <= '0';
+		Done <= '0';		
+
+		CASE y IS
+			WHEN S1 =>
+				regDataWrite <= '1';
+				regLoWrite <= '1';
+				regHiWrite <= '1';
+				regMidWrite <= '1'; -- allow writing to mid to pre-empt process
+				Found <= '0';
+			WHEN S2 =>
+				regMidWrite <= '1';
+			WHEN S3 =>
+				muxIncDecUse <= '1';
+				IF unsigned(compOut) = 0 THEN
+					Found <= '1';
+					Addr <= '0' & regMid;
+				ELSIF negComp = '0' THEN
+					regLoWrite <= '1';
+				ELSE
+					regHiWrite <= '1';
+				END IF;
+			WHEN S4 =>
+				Done <= '1';
+		END CASE;
+	END PROCESS;
+	
 END Behaviour;
