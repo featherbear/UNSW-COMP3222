@@ -89,7 +89,7 @@ BEGIN
 						STATE <= S1;
 					END IF;
 				WHEN S2 =>
-					IF bitsRead = N THEN
+					IF bitsRead = N-1 THEN
 						STATE <= S3;
 					ELSE
 						STATE <= S2;
