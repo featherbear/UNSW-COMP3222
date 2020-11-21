@@ -7,7 +7,7 @@ ENTITY incDecUnit IS
 	PORT (
 		IncOrDec	: IN  STD_LOGIC; -- 0 for add, 1 for subtract
 		Input		: IN  STD_LOGIC_VECTOR(n-1 DOWNTO 0);
-		Output	: OUT STD_LOGIC_VECTOR(n-1 DOWNTO 0);
+		Output	: OUT STD_LOGIC_VECTOR(n-1 DOWNTO 0)
 		-- Carry		: OUT STD_LOGIC
 	);
 

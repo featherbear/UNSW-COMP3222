@@ -13,7 +13,11 @@ END twoPortNMux;
 
 ARCHITECTURE behaviour OF twoPortNMux IS
 BEGIN
-	PROCESS (A, B, S) IS BEGIN
-		O <= A WHEN S = '0' ELSE B;
+	PROCESS (A, B, S) BEGIN
+		IF S = '0' THEN
+			O <= A;
+		ELSE
+			O <= B;
+		END IF;
 	END PROCESS;
-END behaviour
+END behaviour;

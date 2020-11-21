@@ -1,4 +1,4 @@
-LIBRARY ieee ;
+LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 ENTITY rightShiftAdder IS
@@ -14,13 +14,17 @@ ARCHITECTURE behaviour OF rightShiftAdder IS
 	SIGNAL adder_output	: STD_LOGIC_VECTOR(N-1 DOWNTO 0);
 	SIGNAL adder_carry	: STD_LOGIC;
 BEGIN
-	adder: work.addSubUnit PORT MAP (
-		P1			=> A,
-		P2			=> B,
-		AddOrSub	=> '0',
-		Output	=> adder_output,
-		Carry		=> adder_carry
-	);
+	adder: work.addSubUnit
+		GENERIC MAP (
+			N => N
+		)
+		PORT MAP (
+			P1			=> A,
+			P2			=> B,
+			AddOrSub	=> '0',
+			Output	=> adder_output,
+			Carry		=> adder_carry
+		);
 	
 	-- Fake right shift
 	Output <= adder_carry & adder_output(N-1 DOWNTO 1);
