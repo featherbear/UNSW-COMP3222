@@ -1,0 +1,30 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+-- 4-bit counter
+
+ENTITY upcount IS
+	PORT (
+		Clock		: IN 		STD_LOGIC;
+		ResetN	: IN 		STD_LOGIC;
+		Enable	: IN		STD_LOGIC;
+		Count		: BUFFER INTEGER RANGE 0 TO 8;
+	);
+END upcount;
+
+ARCHITECTURE behaviour OF upcount IS BEGINI
+	PROCESS (Resetn, Clock) BEGIN
+		IF Resetn = '0' THEN
+			Count <= 0;
+ELSIF (Clock'EVENT AND Clock = '1') THEN
+    IF LB = '1' THEN
+        B <= 0;
+    ELSIF EB = '1' THEN
+        B <= B + 1;
+    END IF;
+END IF;
+END PROCESS;
+low <= '0';
+ShiftA : shiftrne GENERIC MAP(N => 8)PORT MAP(Data, LA, EA, low, Clock, A);
+z <= '1' WHEN A = "00000000" ELSE
+    '0';
