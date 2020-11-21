@@ -2,15 +2,19 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 -- USE ieee.std_logic_unsigned.all
 
--- 4-bit counter
+-- n-bit counter
 
 ENTITY upcount IS
+	GENERIC (
+		N : INTEGER := 8
+	);
+	
 	PORT (
 		Clock		: IN 		STD_LOGIC;
 		ResetN	: IN 		STD_LOGIC;
 		Enable	: IN		STD_LOGIC;
 		Load		: IN		STD_LOGIC;
-		Count		: BUFFER INTEGER RANGE 0 TO 8;
+		Count		: BUFFER INTEGER RANGE 0 TO N
 	);
 END upcount;
 
