@@ -5,7 +5,7 @@ USE ieee.numeric_std.all;
 ENTITY L11P1 IS
 	PORT (
 		SW			: IN 	STD_LOGIC_VECTOR(8 DOWNTO 0);
-		KEY		: IN 	STD_LOGIC_VECTOR(1 DOWNTO 0);
+		KEY		: IN 	STD_LOGIC_VECTOR(0 DOWNTO 0); -- Change to 1 DOWNTO 0 for manual clock
 		CLOCK_50	: IN 	STD_LOGIC;
 		LEDR		: OUT	STD_LOGIC_VECTOR(3 DOWNTO 0) -- Using DE1 Board
 	);
@@ -15,8 +15,8 @@ ENTITY L11P1 IS
 	
 	ALIAS RSTn IS KEY(0);
 	
-	-- ALIAS Clk IS CLOCK_50;
-	ALIAS Clk IS KEY(1);
+	ALIAS Clk IS CLOCK_50;
+	-- ALIAS Clk IS KEY(1);
 	
 END L11P1;
 
