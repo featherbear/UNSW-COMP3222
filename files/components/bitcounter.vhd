@@ -31,11 +31,11 @@ ARCHITECTURE behaviour OF bitcounter IS
 	SIGNAL valueShift 		: STD_LOGIC_VECTOR(N-1 DOWNTO 0);
 	
 	-- Counter signal
-	SIGNAL enableCounter			: STD_LOGIC;
-	SIGNAL enableCounterLoad	: STD_LOGIC;
-	SIGNAL bitsRead				: INTEGER RANGE 0 TO N;	-- For performance improvements, code could be changed to store the bitsRemaining.
-																		-- But we'll do it this way, so that we can use the upcount component
-	SIGNAL valueCount				: INTEGER RANGE 0 TO N;
+	SIGNAL enableCounter, enableIncrement	: STD_LOGIC;
+	SIGNAL enableCounterLoad					: STD_LOGIC;
+	SIGNAL bitsRead								: INTEGER RANGE 0 TO N;	-- For performance improvements, code could be changed to store the bitsRemaining.
+																						-- But we'll do it this way, so that we can use the upcount component
+	SIGNAL valueCount								: INTEGER RANGE 0 TO N;
 BEGIN
 
 	shiftRegister: work.shiftrne
@@ -72,7 +72,7 @@ BEGIN
 		PORT MAP (
 			Clock 	=> Clock,
 			ResetN 	=> ResetN,
-			Enable 	=> enableCounter,
+			Enable 	=> enableIncrement,
 			Load 		=> enableCounterLoad,
 			Count		=> valueCount
 		);
@@ -108,6 +108,7 @@ BEGIN
 		enableShift <= '0';
 		enableShiftLoad <= '0';
 		
+		enableIncrement <= '0';
 		enableCounter <= '0';
 		enableCounterLoad <= '0';	
 		
@@ -124,6 +125,9 @@ BEGIN
 			WHEN S2 => 
 				enableShift <= '1';
 				enableCounter <= '1';
+				IF valueShift(0) = '1' THEN
+					enableIncrement <= '1';
+				END IF;
 
 				-- Done
 			WHEN S3 =>
