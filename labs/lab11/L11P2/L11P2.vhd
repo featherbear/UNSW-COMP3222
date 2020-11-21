@@ -20,42 +20,45 @@ ARCHITECTURE Behaviour OF L11P2 IS
 	
 	SIGNAL muxIncDecUse : STD_LOGIC;
 	
-	SIGNAL regLoInput, regHiInput	: STD_LOGIC_VECTOR(3 DOWNTO 0);
-	SIGNAL regLo, regMid, regHi	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL regLoInput, regHiInput	: STD_LOGIC_VECTOR(4 DOWNTO 0);
+	SIGNAL regLo, regMid, regHi	: STD_LOGIC_VECTOR(4 DOWNTO 0);
 	
 	SIGNAL regData : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	
 	SIGNAL regLoWrite, regMidWrite, regHiWrite, regDataWrite : STD_LOGIC;
 	
-	SIGNAL rightAdderOut, incrementorOut, decrementorOut	: STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL rightAdderOut, incrementorOut, decrementorOut	: STD_LOGIC_VECTOR(4 DOWNTO 0);
 	SIGNAL memOut 														: STD_LOGIC_VECTOR(7 DOWNTO 0);
 	
-	SIGNAL ABORTER_DUMMY : STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL ABORTER_DUMMY : STD_LOGIC_VECTOR(4 DOWNTO 0);
 	
 	SIGNAL abortSignal 	: STD_LOGIC;
 	SIGNAL negComp 		: STD_LOGIC;
 	SIGNAL compOut			: STD_LOGIC_VECTOR(7 DOWNTO 0);
 	
+	ATTRIBUTE keep : boolean;
+	ATTRIBUTE keep of regData, regHi, regLo, regMid, rightAdderOut, incrementorOut, decrementorOut, memOut : SIGNAL IS true;
+	
 BEGIN
-	dev_regLO	:	work.regne GENERIC MAP (N => 4) PORT MAP (regLoInput, regLoWrite, '1', Clock, regLo);
-	dev_regMID	:	work.regne GENERIC MAP (N => 4) PORT MAP (rightAdderOut, regMidWrite, '1', Clock, regMid);
-	dev_regHI	:	work.regne GENERIC MAP (N => 4) PORT MAP (regHiInput, regHiWrite, '1', Clock, regHi);
-	dev_regDATA	:	work.regne GENERIC MAP (N => 8) PORT MAP (Data, regDataWrite, '1', Clock, regData);
+	dev_regLO	:	work.regne GENERIC MAP (N => 5) PORT MAP (regLoInput, regLoWrite, ResetN, Clock, regLo);
+	dev_regMID	:	work.regne GENERIC MAP (N => 5) PORT MAP (rightAdderOut, regMidWrite, ResetN, Clock, regMid);
+	dev_regHI	:	work.regne GENERIC MAP (N => 5) PORT MAP (regHiInput, regHiWrite, ResetN, Clock, regHi);
+	dev_regDATA	:	work.regne GENERIC MAP (N => 8) PORT MAP (Data, regDataWrite, ResetN, Clock, regData);
 	
-	dev_muxLO	:	work.twoPortNMux GENERIC MAP (N => 4) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(0, 4)), incrementorOut, muxIncDecUse, regLoInput);
-	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 4) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(31, 4)), decrementorOut, muxIncDecUse, regHiInput);
+	dev_muxLO	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(0, 5)), incrementorOut, muxIncDecUse, regLoInput);
+	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP ("11111", decrementorOut, muxIncDecUse, regHiInput);
 	
-	dev_inc		:	work.incDecUnit GENERIC MAP (N => 4) PORT MAP ('0', regMid, incrementorOut);
-	dev_dec		:	work.incDecUnit GENERIC MAP (N => 4) PORT MAP ('1', regMid, decrementorOut);
+	dev_inc		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('0', regMid, incrementorOut);
+	dev_dec		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('1', regMid, decrementorOut);
 	
-	dev_rsa		:	work.rightShiftAdder GENERIC MAP (N => 4) PORT MAP (regLo, regHi, rightAdderOut);	
-	dev_aborter	:	work.addSubUnit GENERIC MAP (N => 4) PORT MAP (regHi, regLo, '1', ABORTER_DUMMY, abortSignal);
+	dev_rsa		:	work.rightShiftAdder GENERIC MAP (N => 5) PORT MAP (regLo, regHi, rightAdderOut);	
+	dev_aborter	:	work.addSubUnit GENERIC MAP (N => 5) PORT MAP (regHi, regLo, '1', ABORTER_DUMMY, abortSignal);
 	
 	dev_comp		:	work.addSubUnit GENERIC MAP (N => 8) PORT MAP (regData, memOut, '1', compOut, negComp);
 	
 	--	model used latches address and data internally, hence 2-cycle delay
 	mem_blk: work.memory_block PORT MAP (
-		address	=> '0' & regMid,
+		address	=> regMid,
 		clock 	=> Clock, 
 		data 		=> "00000000", -- not writing
 		wren 		=> '0', 			-- not writing
@@ -67,9 +70,16 @@ BEGIN
 	FSM_TRANSITION: PROCESS (abortSignal, s, compOut) BEGIN
 		CASE y IS
 			WHEN S1 =>
+				IF s = '1' THEN
+					y_next <= S2;
+				ELSE
+					y_next <= S1;
+				END IF;
 			WHEN S2 =>
 				IF abortSignal = '1' THEN
 					y_next <= S4;
+				ELSE
+					y_next <= S3;
 				END IF;
 			WHEN S3 =>
 				IF unsigned(compOut) = 0 THEN
@@ -81,6 +91,8 @@ BEGIN
 			WHEN S4 =>
 				IF s = '0' THEN
 					y_next <= S1;
+				ELSE
+					y_next <= S4;
 				END IF;
 		END CASE;
 	END PROCESS;
@@ -114,7 +126,7 @@ BEGIN
 				muxIncDecUse <= '1';
 				IF unsigned(compOut) = 0 THEN
 					Found <= '1';
-					Addr <= '0' & regMid;
+					Addr <= regMid;
 				ELSIF negComp = '0' THEN
 					regLoWrite <= '1';
 				ELSE
