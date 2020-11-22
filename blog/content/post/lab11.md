@@ -80,3 +80,7 @@ LOOP
 * There is a higher number of components implemented in the design, trading component cost for a reduced gate delay. As such, several operations can be calculated much faster, as they can occur in parallel
 
 * Adders/Incrementors and Subtractors/Decrementors have been implemented asynchronously as there should be sufficient time during clock cycles for arithmetic operations to be completed
+
+--- 
+
+TODO: Take out regData
