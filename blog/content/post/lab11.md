@@ -1,6 +1,6 @@
 ---
 title: "Lab 11"
-date: 2020-11-21T22:04:52+11:00
+date: 2020-11-19T22:04:52+11:00
 
 categories: ["Labs"]
 hiddenFromHomePage: false
@@ -17,10 +17,11 @@ sequenceDiagrams:
 ---
 
 # Part 2
-<!-- 
+
+
 ## Block Diagram (Provided)
 
-![](2020-11-21-22-05-32.png) -->
+![](2020-11-21-22-05-32.png)
 
 ## Binary Search Pseudocode
 
@@ -77,9 +78,9 @@ LOOP
 
 ## Design Notes
 
-* A right-shift register **has not been implemented** in the design as it is not required. Right-shifting a 9-bit value has the effect of keeping only the 8 most significant bits. As the right-shift register is solely connected to the MID register, this right shift implementation can be done purely hardware based - by connecting internal output wires `ADDER:8-1` to input `7-0:MID`
+* A right-shift register **has not been implemented** in the design as it is not required. Right-shifting a 9-bit value has the effect of keeping only the 8 most significant bits. As such, the 8 MSb are wired to the output of the "right-adder"
   
-* There is a higher number of components implemented in the design, trading component cost for a reduced gate delay. As such, several operations can be calculated much faster, as they can occur in parallel
+* There is a higher number of components implemented in the design (i.e dedicated incrementor and decrementeo, comparator), trading component cost for a reduced gate delay. As such, several processes can be performed in parallel.
 
 * Adders/Incrementors and Subtractors/Decrementors have been implemented asynchronously as there should be sufficient time during clock cycles for arithmetic operations to be completed
 
@@ -108,6 +109,34 @@ LOOP
 ![](part2-asm_refined.png)
 
 ## Timing Diagram
+
+![](part2-timing.png)
+
+i.e. Searching for the value `30`.  
+
+For a fixed-size of 32 items, the first address will be `(0 + 31) / 2 = 15`.  
+In our case `memory[15] = 50` - however this takes 2 clock cycles to retrieve.
+
+At `S3` (orange), `mem_data > input`, so we now want to check `(0 + 14) / 2 = 7` by entering state `S2` again.  
+
+After two clock cycles, at the next `S3` (blue), `mem_data = input = 30`, so `found` is asserted, and state `S4` is entered
+
+<!-- ### Wave JSON
+
+```json
+{
+  signal: [
+    {name: 'clk', wave: 'p........|'},
+    {name: 's', wave: '0.1......|'},
+    {name: 'state', wave: '=.4445557|', data: ['S1', 'S2', 'S2_2', 'S3', 'S2', 'S2_2', 'S3', 'S4']},
+    {name: 'found', wave: '0......1.|'},
+    {name: 'done', wave: '0.......1|'},
+    {name: 'input', wave: '=........|', data: [30]},
+    {name: 'mem_addr', wave: 'x.4..5...|', data: [15, 7]},
+    {name: 'mem_data', wave: 'xxx.4..5.|', data: [50, 30]}
+  ]
+}
+``` -->
 
 ## Solution Simulation
 
