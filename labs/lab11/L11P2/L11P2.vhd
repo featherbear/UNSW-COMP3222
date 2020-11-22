@@ -49,8 +49,8 @@ BEGIN
 	dev_muxLO	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(0, 5)), incrementorOut, muxIncDecUse, regLoInput);
 	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP ("11111", decrementorOut, muxIncDecUse, regHiInput);
 	
-	dev_inc		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('0', regMid, incrementorOut, abortSignals(1));
-	dev_dec		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('1', regMid, decrementorOut, abortSignals(2));
+	dev_inc		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('0', rightAdderOut, incrementorOut, abortSignals(1));
+	dev_dec		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('1', rightAdderOut, decrementorOut, abortSignals(2));
 	
 	dev_rsa		:	work.rightShiftAdder GENERIC MAP (N => 5) PORT MAP (regLo, regHi, rightAdderOut);	
 	dev_aborter	:	work.addSubUnit GENERIC MAP (N => 5) PORT MAP (regHi, regLo, '1', ABORTER_DUMMY, abortSignals(0));
@@ -60,7 +60,7 @@ BEGIN
 	
 	--	model used latches address and data internally, hence 2-cycle delay
 	mem_blk: work.memory_block PORT MAP (
-		address	=> regMid,
+		address	=> rightAdderOut,
 		clock 	=> Clock, 
 		data 		=> "00000000", -- not writing
 		wren 		=> '0', 			-- not writing
@@ -133,7 +133,7 @@ BEGIN
 				muxIncDecUse <= '1';
 				IF unsigned(compOut) = 0 THEN
 					Found <= '1';
-					Addr <= regMid;
+					Addr <= rightAdderOut;
 				ELSIF negComp = '0' THEN
 					regLoWrite <= '1';
 				ELSE
