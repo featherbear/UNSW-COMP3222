@@ -16,16 +16,18 @@ sequenceDiagrams:
 
 ---
 
-## Part 2
+# Part 2
+<!-- 
+## Block Diagram (Provided)
 
-### Block Diagram (Provided)
+![](2020-11-21-22-05-32.png) -->
 
-![](2020-11-21-22-05-32.png)
-
-### Binary Search Pseudocode
+## Binary Search Pseudocode
 
 For a fixed size array `n = 32`, with data elements at indices (`0-31`)...  
 To find value `x`
+
+### Basic
 
 ```
 DEASSERT found
@@ -49,7 +51,7 @@ LOOP
 
 ```
 
-### Optimised Pseudo-code (Parallel operation)
+### Parallel Operation
 
 ```
 DEASSERT found
@@ -73,7 +75,7 @@ LOOP
 
 ---
 
-### Design Notes
+## Design Notes
 
 * A right-shift register **has not been implemented** in the design as it is not required. Right-shifting a 9-bit value has the effect of keeping only the 8 most significant bits. As the right-shift register is solely connected to the MID register, this right shift implementation can be done purely hardware based - by connecting internal output wires `ADDER:8-1` to input `7-0:MID`
   
@@ -81,6 +83,32 @@ LOOP
 
 * Adders/Incrementors and Subtractors/Decrementors have been implemented asynchronously as there should be sufficient time during clock cycles for arithmetic operations to be completed
 
---- 
+* To account for the 2-clock cycle memory load, state `S2` is divided into two stages, `S2` and `S2_2`
 
-TODO: Take out regData
+## States
+
+|STATE|Description|
+|:---:|:----------|
+|`S1`|Initial state - wait for start signal|
+|`S2`|Load memory (1 of 2)|
+|`S2_2`|Load memory (2 of 2)|
+|`S3`|Check state|
+|`S4`|Finished state|
+
+## Algorithm State Machine
+
+![](part2-asm.png)
+
+## Data Path Diagram
+
+![](part2-datapath.png)
+
+## Refined Algorithm State Machine
+
+![](part2-asm_refined.png)
+
+## Timing Diagram
+
+## Solution Simulation
+
+![](part2-vwf.png)

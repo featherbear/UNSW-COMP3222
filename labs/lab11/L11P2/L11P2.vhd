@@ -15,7 +15,13 @@ ENTITY L11P2 IS
 END L11P2;
 
 ARCHITECTURE Behaviour OF L11P2 IS
-	TYPE State_type IS (S1, S2, S2_2, S3, S4);
+	TYPE State_type IS (
+		S1,	-- Init
+		S2,	-- Mem Load (1/2)
+		S2_2, -- Mem Load (2/2)
+		S3,   -- Check
+		S4    -- Done
+	);
 	SIGNAL y, y_next : State_type;
 	
 	SIGNAL muxIncDecUse : STD_LOGIC;
@@ -42,7 +48,7 @@ BEGIN
 	dev_regHI	:	work.regne GENERIC MAP (N => 5) PORT MAP (regHiInput, regHiWrite, ResetN, Clock, regHi);
 	
 	dev_muxLO	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(0, 5)), incrementorOut, muxIncDecUse, regLoInput);
-	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP ("11111", decrementorOut, muxIncDecUse, regHiInput);
+	dev_muxHI	:	work.twoPortNMux GENERIC MAP (N => 5) PORT MAP (STD_LOGIC_VECTOR(to_unsigned(31, 5)), decrementorOut, muxIncDecUse, regHiInput);
 	
 	dev_inc		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('0', rightAdderOut, incrementorOut, abortSignals(1));
 	dev_dec		:	work.incDecUnit GENERIC MAP (N => 5) PORT MAP ('1', rightAdderOut, decrementorOut, abortSignals(2));
@@ -66,6 +72,7 @@ BEGIN
 	FSM_TRANSITION: PROCESS (s, abortSignals, compOut) BEGIN
 		CASE y IS
 			WHEN S1 =>
+				-- Wait for start signal to be asserted
 				IF s = '1' THEN
 					y_next <= S2;
 				ELSE
@@ -76,15 +83,21 @@ BEGIN
 			WHEN S2_2 =>
 				y_next <= S3;
 			WHEN S3 =>
+				-- Check for any overflow / underflow / index crossover violations
 				IF unsigned(abortSignals) > 0 THEN
 					y_next <= S4;
+				
+				-- Check if the value has matched
 				ELSIF unsigned(compOut) = 0 THEN
 					y_next <= S4;
+				
+				-- Load memory
 				ELSE
 					y_next <= S2;
 				END IF;
 				
 			WHEN S4 =>
+				-- Wait for start signal to be deasserted
 				IF s = '0' THEN
 					y_next <= S1;
 				ELSE
@@ -107,29 +120,30 @@ BEGIN
 		muxIncDecUse <= '0';
 		Done <= '0';		
 
-		CASE y IS
-			WHEN S1 =>
-				regLoWrite <= '1';
-				regHiWrite <= '1';
-				Found <= '0';
-			WHEN S2 =>
-				Found <= '0';
-			WHEN S2_2 =>
-				Found <= '0';
-			WHEN S3 =>
-				Found <= '0';
-				muxIncDecUse <= '1';
-				IF unsigned(compOut) = 0 THEN
-					Found <= '1';
-					Addr <= rightAdderOut;
-				ELSIF negComp = '0' THEN
+		IF y = S4 THEN
+			Done <= '1';
+		ELSE
+			Found <= '0';
+			CASE y IS
+				-- INIT: Write LO=0, HI=31
+				WHEN S1 =>
 					regLoWrite <= '1';
-				ELSE
 					regHiWrite <= '1';
-				END IF;
-			WHEN S4 =>
-				Done <= '1';
-		END CASE;
+
+				-- CHECK: Check if the value has matched, else assign the next LO or HI value
+				WHEN S3 =>
+					muxIncDecUse <= '1';
+					IF unsigned(compOut) = 0 THEN
+						Found <= '1';
+						Addr <= rightAdderOut;
+					ELSIF negComp = '0' THEN
+						regLoWrite <= '1';
+					ELSE
+						regHiWrite <= '1';
+					END IF;
+				WHEN OTHERS => NULL;
+			END CASE;
+		END IF;
 	END PROCESS;
 	
 END Behaviour;
