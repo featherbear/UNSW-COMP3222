@@ -101,7 +101,7 @@ or max terms that do not contribute  -->
 
 ## Product of Sums Form
 
-If a given function $ f $ is specified by a truth table, then its complement $ \overline{f} $ can be represented by a sum of minterms for which $ \overline{f} = 1$, which are the rows of $f$ where $f = 0$
+If a given function $ f $ is specified by a truth table, then its complement $ \overline{f} $ can be represented by a product of maxterms for which $ \overline{f} = 1$, which are the rows of $f$ where $f = 0$
 
 > $ f = \overline{m_2} = M_2 = \Pi{(M_2)} = \Pi{M(2)} $
 

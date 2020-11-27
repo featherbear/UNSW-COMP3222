@@ -117,7 +117,7 @@ When $V_G < V_B$, $V_D = V_S$
 
 # CMOS implementation for a generic network
 
-Apply $f || \overbar{f}$
+Apply $f || \overline{f}$
 
 ---
 
