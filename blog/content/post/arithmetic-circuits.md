@@ -92,7 +92,7 @@ Each stage can check if a carry has been generated, or if a carry has been propa
 * All sum bits are computed after 4 gate delays
 * BUT each stage gets more and more complex
   * Two more wires used per each stage
-  * 1 more AND gate with one more input per sate
+  * 1 more AND gate with one more input per state
   * One more input to the OR gate per stage
 * It is wise to split a n-bit adder into smaller blocks
   * i.e. Split a 32-bit adder into four 8-bit adders

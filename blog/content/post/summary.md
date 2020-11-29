@@ -93,6 +93,13 @@ Switches an output given a set of inputs.
 
 > $f = \overline{s}\cdot{x_0} + {s}\cdot{x_1}
 
+### Shannon's Expansion Theorem
+
+> Mux implementations of logic functions require that a given function to be decomposed with respect to the variables that are used as the select inputs
+
+Variable split -> $f(w_1, w_2, ...) -> w_1f_{w_1}(1, w_2, ...) + \overline{w_1}f_\overline{w_1}(0, w_2, ...)$
+
+We can also split multiple variables - breaking them into permutations of terms
 
 ## Gates
 
@@ -144,9 +151,119 @@ An additional carry-lookhead logic block takes in these values of `g` and `p` fo
 
 $c_i = g_n OR p_n$
 
+* Carry bits produced after 3 gate delays
+* Sum bits produced after 4 gate delays
+* Each stage requires another AND gate with another state
+
+
+> Calculation: Minimum 4 
+
 ## Subtraction Circuits
 
 Add the two's complement of a number X to perform a "subtraction of X" operation
 
+## Multiplication Circuit
+
+Add `n` time
+
+## Division
+
+Move scope of dividend until divisor is subtractable
+
+## Encoders and Decoders
+
+> Turning data from one form to another
+
+An $n$-bit signal could be turned into $2^n$ outputs, allowing a 'one-hot encoded' value to be formed (only one output is active at any given time)
+
+### Latches
+
+Respond while clock is high
+
+* RS-Latch - Latch responds when clock is high
+  * Undefined behaviour when `S` and `R` are both asserted
+* D-Latch - Latch responds when clock is high
+
+### Flip-Flop Circuits
+
+Respond only during transitions of the clock edge
+
+* D-Flip-Flop - Set to D on clock transition
+* T-Flip-Flop - Toggle result when T is high
+* [JK-Flip-Flop](../latches-and-flip-flops#jk-type-flip-flop) - (Most versatile one) - Toggle, set, or hold
+
+## Registers
+
+A register is a collection of flip-flop circuits that are grouped together
+
+### Shift Registers
+
+Shift registers shift the incoming data either left or right
+
+### Parallel Access
+
+Allows a shift register to be loaded in serially (by shifting), or all at once.  
+This is done by muxing the D-flip-flop input.
+
+## Three State / Tri-State Buffers
+
+Output is of a high impedance if $c = 0$, else output is the value of the input $i$.
+
+## Counters
+
+Store values, increment and/or decrement.  
+
+Increasing logic is performed by an AND gate (only increment if both previous register and register before that (...) are asserted)
+
+Implementation: Use the same clock signals!
+
 # Clocks
+
+Clocks are used to synchronise operations
+
+## Circuit Delays
+
+Devices take time for their outputs to be asserted correctly (floating values, physical connections, gate delays).
+
+* Propagation Delay - $t_{cQ}$ - Time taken for the output to reflect an input change
+  * Beginning of input transition (ie clock) to output change
+* Setup Time - $t_{su}$ - Time needed for the input to be stable prior to the triggering clock edge
+* Hold Time - $t_{h}$ - Time needed for the input to be stable after to the triggering clock edge
+
+$$ T_{min} = \frac{1}{F_{max}} $$
+
+$$ T_{min}$ = max(t_{cQ}) + t_{NOT} + t_{su} $$
+$$ F_{max} = \frac{1}{T_{min}} $$
+
+Therefore, max clock speed is $ F_{max} $
+Any faster, $t_{su}$ will not be satisfied
+
+
+> To determine the shortest delay from any positive clock edge to flip-flop input.  
+
+$$ min(t_{cQ}) + t_{NOT} > t_h $$
+
+## Clock Skew
+
+Due to wire delays, the same clock edge may arrive at different times.  
+FPGA boards have special clock distribution networks that minimise the time difference of received clock edges.
+
+* Positive Clock Skew can be beneficial - signals arrive earlier than expected; can calculate earlier
+* Negative Clock Sew is often harmful - signals arrive later, increase delay, reduce max frequency
+
+# Synchronous Circuits
+
+* Sequential Circuit - output depends on past inputs and states, and present inputs
+
+Sequential circuits that use a clock signal are known as synchronous sequential circuits (FSM)
+
+* Moore circuit - Output state depends **solely** on the current state ("step by step")
+* Mealy circuit - Output state depends on the current state and the current inputs
+
+---
+
+- State Diagram - Represents the transitions between states
+- State Table - Represents the outputs of a state, and the consequences of different inputs
+
+Note on Async Inputs: The output should be asserted until after the input has been asserted for 1 clock period.
 

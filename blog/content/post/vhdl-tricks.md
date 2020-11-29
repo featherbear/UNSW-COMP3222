@@ -40,7 +40,7 @@ ENTITY regn IS
 END regn;
 ```
 
-If an assignment requires the length of a generic, we can use the `OTHERS` keyword as a wildcard - refer to [`$n$-bit registers`](../registers#n-bit-register)
+If an assignment requires the length of a generic, we can use the `OTHERS` keyword as a wildcard. (Refer to [$n$-bit registers](../registers#n-bit-register))
 
 To set these values during instantiation, we use the `GENERIC MAP` declaration.
 
