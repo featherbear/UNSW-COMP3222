@@ -1,5 +1,5 @@
 Restore Archived Project report for scntr
-Mon Nov 30 07:21:09 2020
+Mon Nov 30 05:00:57 2020
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -36,7 +36,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------------+
 ; Restore Archived Project Summary                                        ;
 +---------------------------------+---------------------------------------+
-; Restore Archived Project Status ; Successful - Mon Nov 30 07:21:09 2020 ;
+; Restore Archived Project Status ; Successful - Mon Nov 30 05:00:57 2020 ;
 ; Revision Name                   ; scntr                                 ;
 ; Top-level Entity Name           ; scntr                                 ;
 ; Family                          ; Cyclone II                            ;
@@ -46,38 +46,37 @@ applicable agreement for further details.
 +-----------------------------------+
 ; Restore Archived Project Messages ;
 +-----------------------------------+
-Info: Successfully restored '/build/exam/z5206677-de1-solution.qar' into the '/build/exam/z5206677-de1-solution_restored/' directory
+Info: Successfully restored '/build/exam/DE1-scntr.qar' into the '/build/exam/DE1-scntr_restored/' directory
 Info: Generated report 'scntr.restore.rpt'
 Info (23030): Evaluation of Tcl script /app/quartus/common/tcl/apps/qpm/qar.tcl was successful
-Info: Quartus II 32-bit Shell was successful. 0 errors, 0 warnings
+Info: Quartus II 32-bit Shell was successful. 0 errors, 2 warnings
     Info: Peak virtual memory: 220 megabytes
-    Info: Processing ended: Mon Nov 30 07:21:09 2020
+    Info: Processing ended: Mon Nov 30 05:00:57 2020
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:01
 
 
-+--------------------------------------------------+
-; Files Restored                                   ;
-+--------------------------------------------------+
-; File Name                                        ;
-+--------------------------------------------------+
-; assignment_defaults.qdf                          ;
-; bcdCounter.vhd                                   ;
-; bcd_to_hex.vhd                                   ;
-; incremental_db/compiled_partitions/scntr.db_info ;
-; regn.vhd                                         ;
-; scntr.qpf                                        ;
-; scntr.qsf                                        ;
-; scntr.vhd                                        ;
-; scntr.vwf                                        ;
-; subtractor.vhd                                   ;
-+--------------------------------------------------+
++-----------------------------+
+; Files Restored              ;
++-----------------------------+
+; File Name                   ;
++-----------------------------+
+; assignment_defaults.qdf     ;
+; output_files/.DS_Store      ;
+; output_files/scntr-soln.sof ;
+; scntr.qpf                   ;
+; scntr.qsf                   ;
+; scntr.vhd                   ;
+; scntr.vwf                   ;
++-----------------------------+
 
 
-+--------------------+
-; Files Not Restored ;
-+--------------------+
-; File Name          ;
-+--------------------+
++-------------------------+
+; Files Not Restored      ;
++-------------------------+
+; File Name               ;
++-------------------------+
+; assignment_defaults.qdf ;
++-------------------------+
 
 

@@ -1,0 +1,23 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all ;
+
+ENTITY regn IS
+	GENERIC ( N : INTEGER := 8 ) ;
+	PORT(	input 	: IN 		STD_LOGIC_VECTOR(N-1 DOWNTO 0) ;
+			E		 	: IN 		STD_LOGIC ;
+			Resetn	: IN		STD_LOGIC;
+			Clock 	: IN 		STD_LOGIC ;
+			output	: OUT 	STD_LOGIC_VECTOR(N-1 DOWNTO 0) ) ;
+END regne ;
+
+ARCHITECTURE behaviour OF regn IS
+BEGIN
+	PROCESS
+	BEGIN
+		IF rst = '0' THEN:
+			output <= (OTHERS => '0');
+		ELSIF Clock'EVENT AND Clock = '1' AND en = '1' THEN
+			output <= D;
+		END IF;
+	END PROCESS;
+END behaviour;

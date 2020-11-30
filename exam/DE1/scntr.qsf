@@ -114,10 +114,16 @@ set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
 set_global_assignment -name SEARCH_PATH output_files/ -tag from_archive
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 set_global_assignment -name VHDL_FILE regn.vhd
 set_global_assignment -name VHDL_FILE scntr.vhd
 set_global_assignment -name VECTOR_WAVEFORM_FILE scntr.vwf
 set_global_assignment -name VHDL_FILE bcdCounter.vhd
 set_global_assignment -name VHDL_FILE bcd_to_hex.vhd
 set_global_assignment -name VHDL_FILE subtractor.vhd
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (Verilog)"
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
+set_global_assignment -name VECTOR_OUTPUT_FORMAT VWF
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "/build/exam/DE1-scntr_restored/scntr.vwf"

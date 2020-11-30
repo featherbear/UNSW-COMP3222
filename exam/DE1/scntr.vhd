@@ -20,19 +20,33 @@ architecture behavioural of scntr is
 	SIGNAL enableThreshold, enableSample, enableCounter : STD_LOGIC;
 	SIGNAL thresholdOut, sampleOut, subtractorOut : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	SIGNAL underflowOccured : STD_LOGIC;
-		
+	
+	SIGNAL loadTriggered : STD_LOGIC;
+	
+	ATTRIBUTE keep : boolean;
+	ATTRIBUTE KEEP OF y_next  : SIGNAL IS true;
+
+	
 begin
 
 	stored_t <= thresholdOut;
 
 	-- Transitions
-	PROCESS (load) BEGIN
+	PROCESS (load, resetn) BEGIN
+		IF resetn = '0' THEN
+			loadTriggered <= '0';
+		END IF;
 		CASE y IS
 			WHEN state_Load =>
 				IF load = '1' THEN
 					y_next <= state_Load;
-				ELSE
+					loadTriggered <= '1';
+				ELSIF loadTriggered = '1' THEN
 					y_next <= state_Input;
+					loadTriggered <= '1';
+				ELSE
+					y_next <= state_Load;
+					loadTriggered <= '0';
 				END IF;
 			WHEN state_Input =>
 				IF load = '1' THEN
@@ -62,7 +76,7 @@ begin
 		
 		CASE y IS
 			WHEN state_Load =>
-				enableThreshold <= '1';
+				enableThreshold <= load; -- '1';
 			WHEN state_Input =>
 				enableSample <= '1';
 			WHEN state_Compare =>

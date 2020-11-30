@@ -1,0 +1,6 @@
+
+State Machine - |scntr|y
+Name y.state_Compare y.state_Input y.state_Load 
+y.state_Load 0 0 0 
+y.state_Input 0 1 1 
+y.state_Compare 1 0 1 

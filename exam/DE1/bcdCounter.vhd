@@ -15,7 +15,7 @@ ENTITY bcdCounter IS
 END bcdCounter;
 
 ARCHITECTURE behaviour OF bcdCounter IS
-	SIGNAL val3, val2, val1, val0 : STD_LOGIC_VECTOR(3 DOWNTO 0);
+	SIGNAL val3, val2, val1, val0 : STD_LOGIC_VECTOR(3 DOWNTO 0);	
 BEGIN
 	
 	o3: ENTITY work.bcd_to_hex PORT MAP (
@@ -46,21 +46,25 @@ BEGIN
 			val0 <= "0000";
 		ELSIF clk'event AND clk = '1' AND en = '1' THEN
 		   -- Note: Values only change at the end of the process
-			val0 <= val0 + 1;
 			IF val0 = "1001" THEN
 				val0 <= "0000";
-				val1 <= val1 + 1;
 				IF val1 = "1001" THEN
 					val1 <= "0000";
-					val2 <= val2 + 1;
 					IF val2 = "1001" THEN
 						val2 <= "0000";
-						val3 <= val3 + 1;
 						IF val3 = "1001" THEN
 							val3 <= "0000";
+						ELSE
+							val3 <= val3 + 1;
 						END IF;
+					ELSE
+						val2 <= val2 + 1;
 					END IF;
+				ELSE
+					val1 <= val1 + 1;
 				END IF;
+			ELSE
+				val0 <= val0 + 1;
 			END IF;
 		END IF;
 	END PROCESS;

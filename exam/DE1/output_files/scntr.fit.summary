@@ -1,0 +1,16 @@
+Fitter Status : Successful - Mon Nov 30 07:16:49 2020
+Quartus II 32-bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
+Revision Name : scntr
+Top-level Entity Name : scntr
+Family : Cyclone II
+Device : EP2C20F484C7
+Timing Models : Final
+Total logic elements : 80 / 18,752 ( < 1 % )
+    Total combinational functions : 71 / 18,752 ( < 1 % )
+    Dedicated logic registers : 35 / 18,752 ( < 1 % )
+Total registers : 35
+Total pins : 47 / 315 ( 15 % )
+Total virtual pins : 0
+Total memory bits : 0 / 239,616 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 52 ( 0 % )
+Total PLLs : 0 / 4 ( 0 % )
