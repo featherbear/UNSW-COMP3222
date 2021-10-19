@@ -1,0 +1,31 @@
+name: github pages
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2.4.13
+      with:
+        hugo-version: '0.68.3'
+        extended: true
+
+    - name: Clone theme
+      run: cd blog/themes && git clone https://github.com/olOwOlo/hugo-theme-even && cd hugo-theme-even && git reset --hard a039a0fadd3e458db752a2c40b86c0bb23f8f600
+
+    - name: Build
+      run: hugo --gc --minify --cleanDestinationDir -s blog -d public
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.3.1
+      env:
+        PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./blog/public

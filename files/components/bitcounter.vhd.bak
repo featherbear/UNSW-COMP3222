@@ -1,0 +1,12 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY bitcounter IS
+	PORT (
+	);
+END bitcounter;
+
+ARCHITECTURE behaviour OF bitcounter IS 
+BEGIN
+
+END behaviour;

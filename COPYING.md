@@ -1,0 +1,1 @@
+Copying in COMP3222 is cheating
