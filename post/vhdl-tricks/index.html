@@ -1,0 +1,119 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>VHDL Tricks - COMP3222 Musings</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="z5206677"><meta name=description content="VHDL Packages Read here"><meta name=keywords content="featherbear,COMP3222,UNSW"><meta name=generator content="Hugo 0.68.3 with theme even"><link rel=canonical href=../../post/vhdl-tricks/><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../favicon-16x16.png><link rel=manifest href=../../manifest.json><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link href=../../sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><link rel=stylesheet href=../../css/typedjs.shortcode.css><link rel=stylesheet href=../../css/fixDetails.css><link rel=stylesheet href=../../css/fancyBox.css><meta property="og:title" content="VHDL Tricks"><meta property="og:description" content="VHDL Packages Read here"><meta property="og:type" content="article"><meta property="og:url" content="/post/vhdl-tricks/"><meta property="article:published_time" content="2020-10-09T19:27:21+11:00"><meta property="article:modified_time" content="2021-10-19T15:48:52+11:00"><meta itemprop=name content="VHDL Tricks"><meta itemprop=description content="VHDL Packages Read here"><meta itemprop=datePublished content="2020-10-09T19:27:21+11:00"><meta itemprop=dateModified content="2021-10-19T15:48:52+11:00"><meta itemprop=wordCount content="523"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="VHDL Tricks"><meta name=twitter:description content="VHDL Packages Read here"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=../../ class=logo>COMP3222 Musings</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=../../><li class=mobile-menu-item>Home</li></a><a href=https://github.com/featherbear/UNSW-COMP3222><li class=mobile-menu-item>GitHub</li></a><a href=../../categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=../../ class=logo>COMP3222 Musings</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=../../>Home</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/featherbear/UNSW-COMP3222>GitHub</a></li><li class=menu-item><a class=menu-item-link href=../../categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>VHDL Tricks</h1><div class=post-meta><span class=post-time>2020-10-09</span><div class=post-category><a href=../../categories/vhdl/>VHDL</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#vhdl-packages>VHDL Packages</a></li><li><a href=#entities>Entities</a><ul><li><a href=#generics>Generics</a></li><li><a href=#buffer-ports>Buffer Ports</a></li></ul></li><li><a href=#multiplexing-with-select>Multiplexing with <code>SELECT</code></a></li><li><a href=#generation-statements>Generation Statements</a></li><li><a href=#conditional-generation-with-if>Conditional Generation with <code>IF</code></a></li><li><a href=#conditional-assignment-with-when--else>Conditional Assignment with <code>WHEN ... ELSE</code></a></li><li><a href=#concatenation-using->Concatenation using <code>&</code></a></li><li><a href=#processes>Processes</a><ul><li><a href=#if--then--elsif--then--else--end-if>IF ... THEN ... ELSIF ... THEN ... ELSE ... END IF</a></li><li><a href=#case>CASE</a></li><li><a href=#for--loop>FOR ... LOOP</a></li><li><a href=#wait-until>WAIT UNTIL</a></li></ul></li><li><a href=#operators>Operators</a></li></ul></nav></div></div><div class=post-content><h1 id=vhdl-packages>VHDL Packages</h1><p><a href=../vhdl-packages>Read here</a></p><h1 id=entities>Entities</h1><h2 id=generics>Generics</h2><p>Entities can have properties which can be set by the implementation during instantiation.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>ENTITY</span> <span class=nc>regn</span> <span class=k>IS</span>
+  
+  <span class=c1>-- Default: N = 16</span>
+  <span class=k>GENERIC</span> <span class=p>(</span> <span class=n>N</span> <span class=o>:</span> <span class=kt>INTEGER</span> <span class=o>:=</span> <span class=mi>16</span> <span class=p>);</span>
+  
+  <span class=k>PORT</span> <span class=p>(</span>
+    <span class=n>D</span>         <span class=o>:</span> <span class=k>IN</span>  <span class=kt>STD_LOGIC_VECTOR</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span> <span class=k>DOWNTO</span> <span class=mi>0</span><span class=p>);</span>
+    <span class=n>RSTn</span><span class=p>,</span> <span class=n>CLK</span> <span class=o>:</span> <span class=k>IN</span>  <span class=kt>STD_LOGIC</span><span class=p>;</span>
+    <span class=n>Q</span>         <span class=o>:</span> <span class=k>OUT</span> <span class=kt>STD_LOGIC_VECTOR</span><span class=p>(</span><span class=n>N</span><span class=o>-</span><span class=mi>1</span> <span class=k>DOWNTO</span> <span class=mi>0</span><span class=p>)</span>
+  <span class=p>);</span>
+<span class=k>END</span> <span class=nc>regn</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><p>If an assignment requires the length of a generic, we can use the <code>OTHERS</code> keyword as a wildcard. (Refer to <a href=../registers#n-bit-register>$n$-bit registers</a>)</p><p>To set these values during instantiation, we use the <code>GENERIC MAP</code> declaration.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=n>reg8</span><span class=o>:</span> <span class=n>regn</span>
+  <span class=k>GENERIC</span> <span class=k>MAP</span> <span class=p>(</span> <span class=n>N</span> <span class=o>=&gt;</span> <span class=mi>8</span> <span class=p>)</span>
+  <span class=k>PORT</span> <span class=k>MAP</span> <span class=p>(</span>
+    <span class=n>D</span><span class=p>,</span>
+    <span class=n>RSTn</span><span class=p>,</span>
+    <span class=n>CLK</span><span class=p>,</span> 
+    <span class=n>Q</span>
+  <span class=p>);</span>
+</code></pre></td></tr></table></div></div><h2 id=buffer-ports>Buffer Ports</h2><p>Apart from the <code>IN</code> and <code>OUT</code> modes of a port, a port can also have a <code>BUFFER</code> mode - which allows for reading <em>and</em> writing from and to that port.</p><h1 id=multiplexing-with-select>Multiplexing with <code>SELECT</code></h1><p>Note: Evaluation of all cases is done concurrently</p><ul><li>f &lt;- w0 when S = 0, else w1</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>WITH</span> <span class=n>s</span> <span class=k>SELECT</span>
+  <span class=n>f</span> <span class=o>&lt;=</span> <span class=n>w0</span> <span class=k>WHEN</span> <span class=sc>&#39;0&#39;</span><span class=p>,</span>
+       <span class=n>w1</span> <span class=k>WHEN</span> <span class=k>OTHERS</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><ul><li>4-to-1 (2bit)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>WITH</span> <span class=n>s</span> <span class=k>SELECT</span>
+  <span class=n>f</span> <span class=o>&lt;=</span> <span class=n>w0</span> <span class=k>WHEN</span> <span class=s>&#34;00&#34;</span><span class=p>,</span>
+       <span class=n>w1</span> <span class=k>WHEN</span> <span class=s>&#34;01&#34;</span><span class=p>,</span>
+       <span class=n>w2</span> <span class=k>WHEN</span> <span class=k>OTHERS</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><h1 id=generation-statements>Generation Statements</h1><p>Shorthand to instantiate multiple components where they only differ by one variable. (i.e. multiple muxers which folow a pattern)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=nc>G1</span><span class=o>:</span> <span class=k>FOR</span> <span class=n>i</span> <span class=k>IN</span> <span class=mi>0</span> <span class=k>TO</span> <span class=mi>3</span> <span class=k>GENERATE</span>
+  <span class=n>muxes</span><span class=o>:</span> <span class=n>mux4to1</span> <span class=k>PORT</span> <span class=k>MAP</span> <span class=p>(</span>
+    <span class=n>w</span><span class=p>(</span><span class=mi>4</span><span class=o>*</span><span class=n>i</span><span class=p>),</span>
+    <span class=n>w</span><span class=p>(</span><span class=mi>4</span><span class=o>*</span><span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>),</span>
+    <span class=n>w</span><span class=p>(</span><span class=mi>4</span><span class=o>*</span><span class=n>i</span> <span class=o>+</span> <span class=mi>2</span><span class=p>),</span>
+    <span class=n>w</span><span class=p>(</span><span class=mi>4</span><span class=o>*</span><span class=n>i</span> <span class=o>+</span> <span class=mi>3</span><span class=p>),</span>
+    <span class=n>s</span><span class=p>(</span><span class=mi>1</span> <span class=k>DOWNTO</span> <span class=mi>0</span><span class=p>),</span>
+    <span class=n>m</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+  <span class=p>);</span>
+<span class=k>END</span> <span class=k>GENERATE</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><h1 id=conditional-generation-with-if>Conditional Generation with <code>IF</code></h1><p><img src=2020-10-10-01-35-12.png alt></p><h1 id=conditional-assignment-with-when--else>Conditional Assignment with <code>WHEN ... ELSE</code></h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=n>f</span> <span class=o>&lt;=</span> <span class=n>w0</span> <span class=k>WHEN</span> <span class=n>s</span> <span class=o>=</span> <span class=sc>&#39;0&#39;</span> <span class=k>ELSE</span> <span class=n>w1</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><ul><li>Can also combine multiple cases<ul><li>Note: They are evaluated sequentially in order (left to right)</li></ul></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=n>f</span> <span class=o>&lt;=</span> <span class=n>w0</span> <span class=k>WHEN</span> <span class=n>s</span> <span class=o>=</span> <span class=sc>&#39;0&#39;</span> <span class=k>ELSE</span> <span class=n>w1</span> <span class=k>WHEN</span> <span class=n>t</span> <span class=o>=</span> <span class=sc>&#39;1&#39;</span> <span class=k>ELSE</span> <span class=sc>&#39;1&#39;</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><h1 id=concatenation-using->Concatenation using <code>&</code></h1><p>Can define a signal with a length as the sum of two other signal lengths</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>SIGNAL</span> <span class=n>A</span> <span class=o>:</span> <span class=kt>STD_LOGIC_VECTOR</span><span class=p>(</span><span class=mi>1</span> <span class=k>DOWNTO</span> <span class=mi>0</span><span class=p>);</span>
+<span class=k>SIGNAL</span> <span class=n>B</span> <span class=o>:</span> <span class=kt>STD_LOGIC</span><span class=p>;</span>
+<span class=k>SIGNAL</span> <span class=n>S</span> <span class=o>:</span> <span class=kt>STD_LOGIC_VECTOR</span><span class=p>(</span><span class=mi>2</span> <span class=k>DOWNTO</span> <span class=mi>0</span><span class=p>);</span>
+
+<span class=p>...</span>
+<span class=n>S</span> <span class=o>&lt;=</span> <span class=n>A</span> <span class=o>&amp;</span> <span class=n>B</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><h1 id=processes>Processes</h1><p>Statements are executed sequentially.</p><p>A process listens to a "sensitivity list", and only triggers when a value inside the sensitivity list updates. Only variables that are used in a condition or assignment should appear in a sensitivity list</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>PROCESS</span> <span class=p>(...)</span> <span class=k>BEGIN</span>
+  <span class=p>...</span>
+<span class=k>END</span> <span class=k>PROCESS</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><ul><li>Assignments are committed at the <strong>end</strong> of the process</li></ul><p>NOTE: Processes that describe combination logic (circuits without memory) MUST assign a value to every output signal for every execution path</p><h2 id=if--then--elsif--then--else--end-if>IF ... THEN ... ELSIF ... THEN ... ELSE ... END IF</h2><p><code>IF</code> statements can be used inside a <code>PROCESS</code></p><p><img src=2020-10-10-02-48-36.png alt></p><h2 id=case>CASE</h2><p><img src=2020-10-10-03-31-24.png alt></p><h2 id=for--loop>FOR ... LOOP</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=nc>someLabel</span><span class=o>:</span> <span class=k>FOR</span> <span class=n>i</span> <span class=k>IN</span> <span class=mi>0</span> <span class=k>to</span> <span class=n>N</span><span class=o>-</span><span class=mi>2</span> <span class=k>LOOP</span>
+  <span class=n>Q</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;=</span> <span class=n>Q</span><span class=p>(</span><span class=n>i</span><span class=o>+</span><span class=mi>1</span><span class=p>);</span>
+<span class=k>END</span> <span class=k>LOOP</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><h2 id=wait-until>WAIT UNTIL</h2><p>Makes the process <em>always</em> run, but only continues when a condition is true</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-vhdl data-lang=vhdl><span class=k>PROCESS</span> <span class=k>BEGIN</span>
+  <span class=k>WAIT</span> <span class=k>UNTIL</span> <span class=n>CLK</span><span class=na>&#39;event</span> <span class=k>AND</span> <span class=n>CLK</span> <span class=o>=</span> <span class=sc>&#39;1&#39;</span><span class=p>;</span>
+  <span class=n>Q</span> <span class=o>&lt;=</span> <span class=n>D</span><span class=p>;</span>
+<span class=k>END</span> <span class=k>PROCESS</span><span class=p>;</span>
+</code></pre></td></tr></table></div></div><hr><h1 id=operators>Operators</h1><p><img src=2020-10-10-03-40-00.png alt></p></div><footer class=post-footer><nav class=post-nav><a class=next href=../../post/decoders-and-encoders/><span class="next-text nav-default">Decoders and Encoders</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-left"></i></a><a class=prev href=../../post/latches-and-flip-flops/><i class="iconfont icon-right"></i><span class="prev-text nav-default">Latches and Flip-Flops</span>
+<span class="prev-text nav-mobile">Prev</span></a></nav></footer></article><script>(function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};o=f.createElement('script'),m=f.getElementsByTagName('script')[0];o.async=1;o.src=t;o.id='fathom-script';m.parentNode.insertBefore(o,m)})(document,window,'//ss.featherbear.cc/tracker.js','fathom');fathom('set','siteId','NEQTU');fathom('trackPageview');</script></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:z5206677@student.unsw.edu.au class="iconfont icon-email" title=email></a><a href=https://www.linkedin.com/in/andrewjinmengwong/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/featherbear class="iconfont icon-github" title=github></a><a href=https://www.instagram.com/_andrewjwong/ class="iconfont icon-instagram" title=instagram></a><a href=../../index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2020 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Andrew Wong (z5206677)</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=../../js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=text/javascript>window.MathJax={tex2jax:{inlineMath:[['$','$'],['\\(','\\)']]},showProcessingMessages:false,messageStyle:'none'};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin=anonymous></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-107434487-2','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script><script src=../../js/typed.js@2.0.9></script><script src=../../js/typedjs.shortcode.js></script></body></html>
